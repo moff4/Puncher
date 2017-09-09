@@ -21,23 +21,23 @@ So here we get:
 
 
 ### Commands
-| number(2bytes)	|	command	| 1st arg (3bytes)  | 2nd arg (3bytes)  |
-|-------------------|-----------|-------------------|-------------------|
-|  -1.				|	exit	|	-1				|	-1				|
-|	1.				|	mov		|	from			|	to				|
-|	2.				|	add		|	address			|	address			|
-|	3.				|	sub		|	address			|	address			|
-|	4.				|	mul		|	address			|	address			|
-|	5.				|	div		|	address			|	address			|
-|	6.				|	jmp		|	address			|	nothing			|
-|	7.				|	push	|	address			|	nothing			|
-|	8.				|	pop		|	address			|	nothing			|
-|	9.				|	echo	|	address			|	type			|
-|	10.				|	read	|	address			|	type			|
-|	11.				|	shl		|	address			|	number			|
-|	12.				|	shr		|	address			|	number			|
-|	13.				|	shl8	|	address			|	number			|
-|	14.				|	shr8	|	address			|	number			|
+| number(2bytes)	|	command												| 1st arg (3bytes)  | 2nd arg (3bytes)  |
+|-------------------|-------------------------------------------------------|-------------------|-------------------|
+|  -1.				|	[exit](https://github.com/moff4/Puncher#-1-exit)	|	-1				|	-1				|
+|	1.				|	[mov](https://github.com/moff4/Puncher#1-mov)		|	from			|	to				|
+|	2.				|	[add](https://github.com/moff4/Puncher#2-add)		|	address			|	address			|
+|	3.				|	[sub](https://github.com/moff4/Puncher#3-sub)		|	address			|	address			|
+|	4.				|	[mul](https://github.com/moff4/Puncher#4-mul)		|	address			|	address			|
+|	5.				|	[div](https://github.com/moff4/Puncher#5-div)		|	address			|	address			|
+|	6.				|	[jmp](https://github.com/moff4/Puncher#6-jmp)		|	address			|	nothing			|
+|	7.				|	[push](https://github.com/moff4/Puncher#7-push)		|	address			|	nothing			|
+|	8.				|	[pop](https://github.com/moff4/Puncher#8-pop)		|	address			|	nothing			|
+|	9.				|	[echo](https://github.com/moff4/Puncher#9-echo)		|	address			|	type			|
+|	10.				|	[read](https://github.com/moff4/Puncher#10-read)	|	address			|	type			|
+|	11.				|	[shl](https://github.com/moff4/Puncher#11-shl)		|	address			|	number			|
+|	12.				|	[shr](https://github.com/moff4/Puncher#12-shr)		|	address			|	number			|
+|	13.				|	[shl8](https://github.com/moff4/Puncher#13-shl8)	|	address			|	number			|
+|	14.				|	[shr8](https://github.com/moff4/Puncher#14-shr8)	|	address			|	number			|
 
 * "1st" means "data in 1st addreess"
 * "2nd" means "data in 2st addreess"
