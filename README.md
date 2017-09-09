@@ -42,50 +42,50 @@ So here we get:
 * "1st" means "data in 1st addreess"
 * "2nd" means "data in 2st addreess"
 
-**-1. exit** (EXIT)  
+#### -1. exit  (EXIT)  
 Just stops program  
 That's only way to stop running ur program
 
-**1. mov** (MOVE)  
+#### 1. mov  (MOVE)  
 Just move data from one cell to another
 
-**2. add** (ADD)  
+#### 2. add  (ADD)  
 1st  = (1st + 2nd)
 
-**3. sub** (SUBVIDE)  
+#### 3. sub  (SUBVIDE)  
 1st = (1st - 2nd)
 
-**4. mul** (MULTIPLY)  
+#### 4. mul  (MULTIPLY)  
 1st = (1st * 2nd)
 
-**5. div** (DIVIDE)  
+#### 5. div  (DIVIDE)  
 1st = (1st / 2nd)
 
-**6. jmp** (JUMP)  
+#### 6. jmp  (JUMP)  
 goto another `address`
 
-**7. push** (PUSH)  
+#### 7. push  (PUSH)  
 push to stack data from cell
 
-**8. pop** (POP)  
+#### 8. pop  (POP)  
 pop data from stack to cell
 
-**9. echo** (ECHO)  
-write stdout data according to `type`:
+#### 9. echo  (ECHO)  
+write stdout data according to [type](https://github.com/moff4/Puncher#types-of-input-and-output-data):
 
-**10. read** (WRITE)  
-read stdin from data according to `type`:
+#### 10. read  (WRITE)  
+read stdin from data according to [type](https://github.com/moff4/Puncher#types-of-input-and-output-data):
 
-**11. shl** (SHIFT LEFT)  
+#### 11. shl  (SHIFT LEFT)  
 1st = 1st * ( 2 * 2nd)
 
-**12. shr** (SHIFT RIGHT)  
+#### 12. shr  (SHIFT RIGHT)  
 1st = 1st / ( 2 * 2nd)
 
-**13. shl8** (SHIFT LEFT 8 bit)  
+#### 13. shl8  (SHIFT LEFT 8 bit)  
 1st = 1st * ( 16 * 2nd)
 
-**14. shr8** (SHIFT RIGHT 8 bit)  
+#### 14. shr8  (SHIFT RIGHT 8 bit)  
 1st = 1st / ( 16 * 2nd)
 
 #### Types of input and output data  
