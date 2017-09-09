@@ -42,7 +42,7 @@ So here we get:
 * "1st" means "data in 1st addreess"
 * "2nd" means "data in 2st addreess"
 
-**-1. exit** (EXIT)
+**-1. exit** (EXIT)  
 Just stops program  
 That's only way to stop running ur program
 
@@ -88,7 +88,7 @@ read stdin from data according to `type`:
 **14. shr8** (SHIFT RIGHT 8 bit)  
 1st = 1st / ( 16 * 2nd)
 
-**Types of input and output data**  
+#### Types of input and output data  
 1) int(dec)  
 2) string  
 3) hex  
