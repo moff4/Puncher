@@ -7,7 +7,7 @@
 using namespace std;
 
 void _print_help(void);
-void parse_argv(int w,const char ** stt, string& filename,string& mod, string& conv);
+void parse_argv(int w,const char ** stt, string& filename,string& mod, string& conv, string& new_filename);
 
 
 /**
@@ -17,11 +17,12 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
 int main(int w,const char** stt)
 {
     
-    string filename	= "";
-    string mod		= "";
-    string conv		= "";
+    string filename     = "";
+    string new_filename = "";
+    string mod          = "";
+    string conv         = "";
     
-    parse_argv(w,stt,filename,mod,conv);
+    parse_argv(w,stt,filename,mod,conv,new_filename);
     if (filename == "")
     {
         cout<<"expected filename"<<endl;
@@ -38,7 +39,7 @@ int main(int w,const char** stt)
     }
     else
     {
-        machine -> convert("test/test.tmp",conv);
+        machine -> convert(new_filename,conv); // convert code
     }
     
     delete machine;
@@ -50,7 +51,7 @@ int main(int w,const char** stt)
  * argv parser;
  * change input args to special meanings
  */
-void parse_argv(int w,const char ** stt, string& filename,string& mod, string& conv)
+void parse_argv(int w,const char ** stt, string& filename,string& mod, string& conv, string& new_filename)
 {
     mod = "hex";
     bool _mod 		= false;
@@ -105,6 +106,26 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
             {
                 conv = "hex";
                 _conv = true;
+                if ((i +1) != w)
+                {
+                    i++;
+                    new_filename = stt[i];
+                    if (new_filename.length()<=0)
+                    {
+                        cout<<"expected new filename; got nothing; try flag \"-?\" or \"--help\""<<endl;
+                        exit(1);
+                    }
+                    if (new_filename[0]=='-')
+                    {
+                        cout<<"expected new filename; got nothing; try flag \"-?\" or \"--help\""<<endl;
+                        exit(1);
+                    }
+                }
+                else
+                {
+                    cout<<"expected new filename; got nothing; try flag \"-?\" or \"--help\""<<endl;
+                    exit(1);
+                }
             }
             else
             {
@@ -118,6 +139,26 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
             {
                 conv = "boo";
                 _conv = true;
+                if ((i +1) != w)
+                {
+                    i++;
+                    new_filename = stt[i];
+                    if (new_filename.length()<=0)
+                    {
+                        cout<<"expected new filename; got nothing; try flag \"-?\" or \"--help\""<<endl;
+                        exit(1);
+                    }
+                    if (new_filename[0]=='-')
+                    {
+                        cout<<"expected new filename; got nothing; try flag \"-?\" or \"--help\""<<endl;
+                        exit(1);
+                    }
+                }
+                else
+                {
+                    cout<<"expected new filename; got nothing; try flag \"-?\" or \"--help\""<<endl;
+                    exit(1);
+                }
             }
             else
             {
@@ -131,6 +172,26 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
             {
                 conv = "bin";
                 _conv = true;
+                if ((i +1) != w)
+                {
+                    i++;
+                    new_filename = stt[i];
+                    if (new_filename.length()<=0)
+                    {
+                        cout<<"expected new filename; got nothing; try flag \"-?\" or \"--help\""<<endl;
+                        exit(1);
+                    }
+                    if (new_filename[0]=='-')
+                    {
+                        cout<<"expected new filename; got nothing; try flag \"-?\" or \"--help\""<<endl;
+                        exit(1);
+                    }
+                }
+                else
+                {
+                    cout<<"expected new filename; got nothing; try flag \"-?\" or \"--help\""<<endl;
+                    exit(1);
+                }
             }
             else
             {
@@ -164,14 +225,15 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
  */
 void _print_help(void)
 {
-    cout<<"Puched card emulater"<<endl;
-    cout<<"<filename> [ -h | -0 | -b ] [ --conv-hex | --conv-boo | --conv-bin ]"<<endl;
+    cout<<"Puched card emulator"<<endl;
+    cout<<"[filename] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]"<<endl;
     cout<<" filename - name of file with code"<<endl;
-    cout<<" -h - code in hex"<<endl;
-    cout<<" -0 - code in {0|1}"<<endl;
-    cout<<" -b - code is binary file"<<endl;
+    cout<<" -h - code encording is hex (default)"<<endl;
+    cout<<" -0 - code encording contains only 0 and 1"<<endl;
+    cout<<" -b - code has binary encording"<<endl;
     cout<<" --conv-hex - convert code to hex"<<endl;
-    cout<<" --conv-boo   - convert code to {0|1}"<<endl;
+    cout<<" --conv-boo - convert code to {0|1}"<<endl;
     cout<<" --conv-bin - convert code to binary"<<endl;
+    cout<<"new_filename - name of file for convertor input"<<endl;
     cout<<"Extra info at https://github.com/moff4/Puncher"<<endl;
 }

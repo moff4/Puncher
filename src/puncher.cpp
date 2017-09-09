@@ -65,6 +65,11 @@ bool Puncher::load(string mod)
     
     this->bytes = bt;
     
+    /*for(int i = 0;this->bytes[i]!=NULL;i++)
+    {
+        cout<<"load: "<<this->bytes[i]->val<<endl;
+    }//*/
+    
     close(fe);
     delete Vader;
     return bt == NULL;
@@ -94,7 +99,6 @@ bool Puncher::convert(string filename,string mod)
         cout<<"couldn't open file to write \""<<filename<<"\""<<endl;
         return true;
     }
-    
     if (mod == "hex")
     {
         char st[2048];

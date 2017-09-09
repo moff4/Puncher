@@ -1,5 +1,5 @@
 # Puncher
-Punched card emulater
+Punched card emulator
 
 ## How it works?
 
@@ -90,10 +90,11 @@ read stdin from data according to [type](https://github.com/moff4/Puncher#types-
 
 #### Types of input and output data  
 1) int(dec)  
-2) string  
-3) hex  
-4) octal  
-5) binary  
+2) [string](https://github.com/moff4/Puncher#what-is-string)
+3) [char]https://github.com/moff4/Puncher#what-is-char
+4) hex  
+5) octal  
+6) binary  
 
 
 ### What is string?
@@ -101,9 +102,27 @@ String is sequence of bytes ended with zero byte.
 String starts from first (left) byte that is not zero in cell (64bit) and can take as much bytes as it needs and the address of this string will be number of the first line that this string uses.  
 Long strings can have first byte on one line and the last on the next one (or even any longer), the value will be between them even if its more then 100500 bytes  
 
+### What is char?
+Char is the lowest (rightest) byte in cell.  
+Read or echo char means that data will be written or read from only one byte in cell
+
 ## How to run program?
 Linux/Unix: write magic number to this interpreter: `#!/path/pucher`  
 Windows: ¯\\_(ツ)_/¯
+
+`pucher [filename] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]`
+` filename - name of file with code`
+` -h - code encording is hex (default)`
+` -0 - code encording contains only 0 and 1`
+` -b - code has binary encording`
+` --conv-hex - convert code to hex`
+` --conv-boo - convert code to {0|1}*`
+` --conv-bin - convert code to binary`
+` new_filename - name of file for convertor input` 
+
+
+Example:
+`$ ./puncher file_with_code.txt`
 
 
 
