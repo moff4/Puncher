@@ -1,0 +1,5 @@
+*.txt
+push
+run
+build/*
+obj/*

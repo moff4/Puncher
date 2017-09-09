@@ -1,0 +1,177 @@
+#include <stdlib.h>
+#include <iostream>
+#include <string>
+
+#include "puncher.h"
+
+using namespace std;
+
+void _print_help(void);
+void parse_argv(int w,const char ** stt, string& filename,string& mod, string& conv);
+
+
+/**
+ * main; we start here;
+ * That's all u need to know
+ */
+int main(int w,const char** stt)
+{
+    
+    string filename	= "";
+    string mod		= "";
+    string conv		= "";
+    
+    parse_argv(w,stt,filename,mod,conv);
+    if (filename == "")
+    {
+        cout<<"expected filename"<<endl;
+        exit(1);
+    }
+    
+    Puncher* machine = new Puncher(filename);
+    
+    machine -> load(mod);		// load code
+    
+    if (conv == "")
+    {
+        machine -> start();	// run code
+    }
+    else
+    {
+        machine -> convert("test/test.tmp",conv);
+    }
+    
+    delete machine;
+    
+    return 0;
+}
+
+/**
+ * argv parser;
+ * change input args to special meanings
+ */
+void parse_argv(int w,const char ** stt, string& filename,string& mod, string& conv)
+{
+    mod = "hex";
+    bool _mod 		= false;
+    bool _filename  = false;
+    bool _conv		= false;
+    string st;
+    for (int i =1;i<w;i++)
+    {
+        st = string(stt[i]);
+        if (st == "-h")
+        {
+            if (!_mod)
+            {
+                mod = "hex";
+                _mod = true;
+            }
+            else
+            {
+                cout<<"unexpected flag: "<<stt[i]<<endl;
+                exit(1);
+            }
+        }
+        else if (st == "-0")
+        {
+            if (!_mod)
+            {
+                mod = "boo";
+                _mod = true;
+            }
+            else
+            {
+                cout<<"unexpected flag: "<<stt[i]<<endl;
+                exit(1);
+            }
+        }
+        else if (st == "-b")
+        {
+            if (!_mod)
+            {
+                mod = "bin";
+                _mod = true;
+            }
+            else
+            {
+                cout<<"unexpected flag: "<<stt[i]<<endl;
+                exit(1);
+            }
+        }
+        else if (st == "--conv-hex")
+        {
+            if (!_conv)
+            {
+                conv = "hex";
+                _conv = true;
+            }
+            else
+            {
+                cout<<"unexpected flag: "<<stt[i]<<endl;
+                exit(1);
+            }
+        }
+        else if (st == "--conv-boo")
+        {
+            if (!_conv)
+            {
+                conv = "boo";
+                _conv = true;
+            }
+            else
+            {
+                cout<<"unexpected flag: "<<stt[i]<<endl;
+                exit(1);
+            }
+        }
+        else if (st == "--conv-bin")
+        {
+            if (!_conv)
+            {
+                conv = "bin";
+                _conv = true;
+            }
+            else
+            {
+                cout<<"unexpected flag: "<<stt[i]<<endl;
+                exit(1);
+            }
+        }
+        else if ((st == "-?") || (st == "--help"))
+        {
+            _print_help();
+            exit(0);
+        }
+        else
+        {
+            if (!_filename)
+            {
+                filename = stt[i];
+                _filename = true;
+            }
+            else
+            {
+                cout<<"expect only one filename: "<<stt[i]<<endl;
+                exit(1);
+            }
+        }
+    }
+}
+
+/**
+ * print help info
+ */
+void _print_help(void)
+{
+    cout<<"Puched card emulater"<<endl;
+    cout<<"<filename> [ -h | -0 | -b ] [ --conv-hex | --conv-boo | --conv-bin ]"<<endl;
+    cout<<" filename - name of file with code"<<endl;
+    cout<<" -h - code in hex"<<endl;
+    cout<<" -0 - code in {0|1}"<<endl;
+    cout<<" -b - code is binary file"<<endl;
+    cout<<" --conv-hex - convert code to hex"<<endl;
+    cout<<" --conv-boo   - convert code to {0|1}"<<endl;
+    cout<<" --conv-bin - convert code to binary"<<endl;
+    cout<<"Extra info at https://github.com/moff4/Puncher"<<endl;
+}
