@@ -218,7 +218,37 @@ Bytes ** Lord::boo(int fe)
  * load data with different encordings
  * arg - file discriptor with read right
  */
-Bytes ** Lord::bin(int)
+Bytes ** Lord::bin(int fe)
 {
-    return NULL;
+    _u64 all=4,num=0,_dat;
+    _u8 q, j = 0;
+    Bytes ** bt = (Bytes**)calloc(all,sizeof(Bytes*));
+    while (read(fe,&q,1)>0)
+    {
+        _dat = ( _dat << 8 ) + q;
+        j++;
+        if (j==8)
+        {
+            bt[num] = new Bytes();
+            bt[num] -> val = _dat;
+            num++;
+            bt[num] = NULL;
+            if ((num + 1) == all)
+            {
+                bt = (Bytes**)realloc(bt,(all*=2)*sizeof(Bytes*));
+            }
+            j=0;
+        }
+    }
+    if (j!=0)
+    {
+        for (int i=0;bt[i]!=NULL;i++)
+        {
+            delete bt[i];
+        }
+        free(bt);
+        bt = NULL;
+        cout<<"Wrong encording; got missing bytes"<<endl;
+    }
+    return bt;
 }
