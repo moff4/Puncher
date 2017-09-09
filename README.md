@@ -91,7 +91,7 @@ read stdin from data according to [type](https://github.com/moff4/Puncher#types-
 #### Types of input and output data  
 1) int(dec)  
 2) [string](https://github.com/moff4/Puncher#what-is-string)
-3) [char]https://github.com/moff4/Puncher#what-is-char
+3) [char](https://github.com/moff4/Puncher#what-is-char)
 4) hex  
 5) octal  
 6) binary  
@@ -110,19 +110,19 @@ Read or echo char means that data will be written or read from only one byte in 
 Linux/Unix: write magic number to this interpreter: `#!/path/pucher`  
 Windows: ¯\\_(ツ)_/¯
 
-`pucher [filename] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]`
-` filename - name of file with code`
-` -h - code encording is hex (default)`
-` -0 - code encording contains only 0 and 1`
-` -b - code has binary encording`
-` --conv-hex - convert code to hex`
-` --conv-boo - convert code to {0|1}*`
-` --conv-bin - convert code to binary`
-` new_filename - name of file for convertor input` 
+`pucher [filename] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]`  
+` filename - name of file with code`  
+` -h - code encording is hex (default)`  
+` -0 - code encording contains only 0 and 1`  
+` -b - code has binary encording`  
+` --conv-hex - convert code to hex`  
+` --conv-boo - convert code to {0|1}*`  
+` --conv-bin - convert code to binary`  
+` new_filename - name of file for convertor input`   
 
 
-Example:
-`$ ./puncher file_with_code.txt`
+Example:  
+`$ ./puncher file_with_code.txt`  
 
 
 
