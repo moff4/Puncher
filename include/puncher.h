@@ -5,6 +5,7 @@
 
 #include "types.h"
 #include "bytes.h"
+#include "stack.h"
 
 class Puncher
 {
@@ -23,6 +24,11 @@ class Puncher
      * code to be runned
      */
     Bytes ** bytes;
+
+    /**
+     * stack
+     */
+    Stack* stack;
     
 public:
 

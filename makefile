@@ -8,8 +8,8 @@ b=build/
 	
 all: $bpucher
 
-$bpucher: $omain.o $opuncher.o $olord.o $obytes.o $otypes.o
-	$g    $omain.o $opuncher.o $olord.o $obytes.o $otypes.o -o $bpucher
+$bpucher: $omain.o $opuncher.o $olord.o $obytes.o $otypes.o $ostack.o
+	$g    $omain.o $opuncher.o $olord.o $obytes.o $otypes.o $ostack.o -o $bpucher
 
 $omain.o: $smain.cpp
 	$g -c $smain.cpp -o $omain.o $f
@@ -23,8 +23,11 @@ $olord.o: $slord.cpp $ilord.h
 $obytes.o: $sbytes.cpp $ibytes.h
 	$g -c $sbytes.cpp -o $obytes.o $f
 
-$otypes.o: $stypes.c $itypes.h
-	$g -c  $stypes.c -o $otypes.o $f
+$otypes.o: $stypes.cpp $itypes.h
+	$g -c  $stypes.cpp -o $otypes.o $f
+
+$ostack.o: $sstack.cpp $istack.h
+	$g -c  $sstack.cpp -o $ostack.o $f
 
 clean:
 	rm -rf $o*.o $bpucher

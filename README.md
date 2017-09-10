@@ -24,7 +24,7 @@ So here we get:
 | number(2bytes)	|	command												| 1st arg (3bytes)  | 2nd arg (3bytes)  |
 |-------------------|-------------------------------------------------------|-------------------|-------------------|
 |  -1.				|	[exit](https://github.com/moff4/Puncher#-1-exit)	|	-1				|	-1				|
-|	1.				|	[mov](https://github.com/moff4/Puncher#1-mov)		|	from			|	to				|
+|	1.				|	[mov](https://github.com/moff4/Puncher#1-mov)		|	address			|	address			|
 |	2.				|	[add](https://github.com/moff4/Puncher#2-add)		|	address			|	address			|
 |	3.				|	[sub](https://github.com/moff4/Puncher#3-sub)		|	address			|	address			|
 |	4.				|	[mul](https://github.com/moff4/Puncher#4-mul)		|	address			|	address			|
@@ -32,7 +32,7 @@ So here we get:
 |	6.				|	[jmp](https://github.com/moff4/Puncher#6-jmp)		|	address			|	nothing			|
 |	7.				|	[push](https://github.com/moff4/Puncher#7-push)		|	address			|	nothing			|
 |	8.				|	[pop](https://github.com/moff4/Puncher#8-pop)		|	address			|	nothing			|
-|	9.				|	[echo](https://github.com/moff4/Puncher#9-echo)		|	address			|	type			|
+|	9.				|	[write](https://github.com/moff4/Puncher#9-write)	|	address			|	type			|
 |	10.				|	[read](https://github.com/moff4/Puncher#10-read)	|	address			|	type			|
 |	11.				|	[shl](https://github.com/moff4/Puncher#11-shl)		|	address			|	number			|
 |	12.				|	[shr](https://github.com/moff4/Puncher#12-shr)		|	address			|	number			|
@@ -47,7 +47,8 @@ Just stops program
 That's only way to stop running ur program
 
 #### 1. mov  
-Just move data from one cell to another
+Just move data from one cell to another  
+1st = 2nd
 
 #### 2. add  
 1st  = (1st + 2nd)
@@ -66,11 +67,13 @@ goto another `address`
 
 #### 7. push  
 push to stack data from cell
+push(1st)
 
 #### 8. pop  
 pop data from stack to cell
+1st = pop()
 
-#### 9. echo  
+#### 9. write  
 write stdout data according to [type](https://github.com/moff4/Puncher#types-of-input-and-output-data):
 
 #### 10. read  
@@ -89,12 +92,12 @@ read stdin from data according to [type](https://github.com/moff4/Puncher#types-
 1st = 1st / ( 16 * 2nd)
 
 #### Types of input and output data  
-1) int(dec)  
+0) unsigned int (dec) 
+1) signed int (dec) 
 2) [string](https://github.com/moff4/Puncher#what-is-string)
 3) [char](https://github.com/moff4/Puncher#what-is-char)
 4) hex  
-5) octal  
-6) binary  
+5) binary  
 
 
 ### What is string?
@@ -104,7 +107,7 @@ Long strings can have first byte on one line and the last on the next one (or ev
 
 ### What is char?
 Char is the lowest (rightest) byte in cell.  
-Read or echo char means that data will be written or read from only one byte in cell
+Read or write char means that data will be written or read from only one byte in cell
 
 ## How to run program?
 Linux/Unix: write magic number to this interpreter: `#!/path/pucher`  
@@ -117,13 +120,17 @@ Windows: ¯\\_(ツ)_/¯
 ` -b - code has binary encording`  
 ` --conv-hex - convert code to hex`  
 ` --conv-boo - convert code to {0|1}*`  
-` --conv-bin - convert code to binary`  
+` --conv-bin - convert code to binary`    
 ` new_filename - name of file for convertor input`   
-
+` if u put flag to wrong encoding u'll get unknown behaviour`  
 
 Example:  
-`$ ./puncher file_with_code.txt`  
+`$ make -j ; ./build/puncher test/test.hex`  
 
-
+## TO DO LIST  
+- write (string)
+- read (all types)
+- add flow control commands 
+- add "LOOP <addr CX> <or addr to jmp>"
 
 
