@@ -3,6 +3,7 @@
 #include <string>
 
 #include "puncher.h"
+#include "stack.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
  */
 int main(int w,const char** stt)
 {
-    
+
     string filename     = "";
     string new_filename = "";
     string mod          = "";

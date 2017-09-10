@@ -1,6 +1,9 @@
 #include <stdlib.h>
+#include <iostream>
 
 #include "stack.h"
+
+using namespace std;
 
 /**
  * init
@@ -35,7 +38,10 @@ Stack::Stack()
  */
 Stack::~Stack()
 {
-	delete this->bl;
+	if (this->bl!=NULL)
+	{
+		delete this->bl;
+	}
 }
 
 /**

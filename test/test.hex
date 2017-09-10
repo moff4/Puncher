@@ -1,9 +1,10 @@
-00 06  00 00 06  00 00 00 # jmp line #6 ----+		# zero line
+00 06  00 00 07  00 00 00 # jmp line #7 ----+		# zero line
 00 00  00 00 00  00 00 10 # A = 16  # 01    |		# 1st line
 00 00  00 00 00  00 01 01 # B = 253 # 02    |		# 2nd line
 00 00  00 00 00  00 00 0A # C = 10  # 03    |		# ...
 48 69  2C 20 6D  61 6E 21 # st = "Hi, man!" |
 21 21  0A 00 00  00 00 00 # .st = "!!\n"    |
+00 00  00 00 00  00 00 14 # Addr = 20       |
 00 02  00 00 01  00 00 02 # A += B <--------+
 00 09  00 00 01  00 00 00 # write A uint
 00 09  00 00 03  00 00 03 # write C char
@@ -14,8 +15,10 @@
 00 09  00 00 03  00 00 03 # write C char
 00 09  00 00 02  00 00 01 # write B int
 00 09  00 00 03  00 00 03 # write C char
-00 09  00 00 04  00 00 02 # write st string
-FF FF  FF FF FF  FF FF FF # END PROGRAM
+00 07  00 00 06  00 00 00 # stack.push(Addr)
+00 10  00 00 01  00 00 02 # if A != B jmp to stack.pop() --+	
+00 09  00 00 04  00 00 02 # write st string                |	
+FF FF  FF FF FF  FF FF FF # END PROGRAM      <--------------	
 #
 # result: "273\n546\n546\nHi, man!!!\n"
 #

@@ -219,5 +219,4 @@ Flags:
 
 ## TO DO LIST  
 - read (all types)
-- add flow control commands 
 - add `LOOP <addr CX> <or addr to jmp>`

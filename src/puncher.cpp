@@ -115,14 +115,14 @@ string Puncher::get_string(_u64 line,_u64 line_num)
 #define _2arg(x)						((x & 0x0000000000FFFFFF))
 #define check_addrs(x,y,line,line_num)	{if (x>=line_num) {cout<<"addr1 err; line: "<<line<<endl; return true;}if (y>=line_num) {cout<<"addr2 err; line: "<<line<<endl; return true;}}
 #define check_addr(x,line,line_num)		{if (x>=line_num) {cout<<"addr err; line: "<<line<<endl; return true;}}
-#define check_type(x,line,line_num)		{if (x>5) {cout<<"type err; line: "<<line<<endl; return true;}}
+#define check_iotype(x,line,line_num)	{if (x>5) {cout<<"type err; line: "<<line<<endl; return true;}}
 /**
  * run code
  */
 bool Puncher::start()
 {
 
-	stack = new Stack; 
+	this->stack = new Stack; 
 	_u64 line_num;
 	for(line_num = 0;this->bytes[line_num]!=NULL;line_num++);
 
@@ -214,7 +214,7 @@ bool Puncher::start()
 			case 7:
 			{
 				check_addr(_1,line,line_num)
-				stack -> push(this->bytes[_1]->val);
+				this->stack -> push(this->bytes[_1]->val);
 			}break;
 
 			/**
@@ -223,8 +223,8 @@ bool Puncher::start()
 			case 8:
 			{
 				check_addr(_1,line,line_num)
-				_u64 y = stack -> pop(line);
-				this->bytes[_1]->val = y
+				_u64 y = this->stack -> pop(line);
+				this->bytes[_1]->val = y;
 			}break;
 
 			/**
@@ -233,7 +233,7 @@ bool Puncher::start()
 			case 9:
 			{
 				check_addr(_1,line,line_num)
-				check_type(_2,line,line_num)
+				check_iotype(_2,line,line_num)
 				switch (_2)
 				{
 					/**
@@ -337,7 +337,7 @@ bool Puncher::start()
 			case 10:
 			{
 				check_addr(_1,line,line_num)
-				check_type(_2,line,line_num)
+				check_iotype(_2,line,line_num)
 				switch (_2)
 				{
 					/**
@@ -415,6 +415,136 @@ bool Puncher::start()
 			{
 				check_addr(_1,line,line_num)
 				this->bytes[_1]->val = this->bytes[_1]->val >> (_2 * 8);
+			}break;
+
+			/**
+			 * je
+			 */
+			case 15:
+			{
+				_u64 addr = this->stack->pop(line);
+				check_addr(addr,line,line_num)
+				if (this->bytes[_1]->val == this->bytes[_2]->val)
+				{
+					line = addr - 1;
+				}
+			}break;
+
+			/**
+			 * jne
+			 */
+			case 16:
+			{
+				_u64 addr = this->stack->pop(line);
+				check_addr(addr,line,line_num)
+				if (this->bytes[_1]->val != this->bytes[_2]->val)
+				{
+					line = addr - 1;
+				}
+			}break;
+
+			/**
+			 * jg
+			 */
+			case 17:
+			{
+				_u64 addr = this->stack->pop(line);
+				check_addr(addr,line,line_num)
+				if ((_i64)this->bytes[_1]->val > (_i64)this->bytes[_2]->val)
+				{
+					line = addr - 1;
+				}
+			}break;
+
+			/**
+			 * jge
+			 */
+			case 18:
+			{
+				_u64 addr = this->stack->pop(line);
+				check_addr(addr,line,line_num)
+				if ((_i64)this->bytes[_1]->val >= (_i64)this->bytes[_2]->val)
+				{
+					line = addr - 1;
+				}
+			}break;
+
+			/**
+			 * ja
+			 */
+			case 19:
+			{
+				_u64 addr = this->stack->pop(line);
+				check_addr(addr,line,line_num)
+				if ((_u64)this->bytes[_1]->val > (_u64)this->bytes[_2]->val)
+				{
+					line = addr - 1;
+				}
+			}break;
+
+			/**
+			 * jae
+			 */
+			case 20:
+			{
+				_u64 addr = this->stack->pop(line);
+				check_addr(addr,line,line_num)
+				if ((_u64)this->bytes[_1]->val >= (_u64)this->bytes[_2]->val)
+				{
+					line = addr - 1;
+				}
+			}break;
+
+			/**
+			 * jl
+			 */
+			case 21:
+			{
+				_u64 addr = this->stack->pop(line);
+				check_addr(addr,line,line_num)
+				if ((_i64)this->bytes[_1]->val < (_i64)this->bytes[_2]->val)
+				{
+					line = addr - 1;
+				}
+			}break;
+
+			/**
+			 * jle
+			 */
+			case 22:
+			{
+				_u64 addr = this->stack->pop(line);
+				check_addr(addr,line,line_num)
+				if ((_i64)this->bytes[_1]->val <= (_i64)this->bytes[_2]->val)
+				{
+					line = addr - 1;
+				}
+			}break;
+			
+			/**
+			 * jb
+			 */
+			case 23:
+			{
+				_u64 addr = this->stack->pop(line);
+				check_addr(addr,line,line_num)
+				if ((_u64)this->bytes[_1]->val < (_u64)this->bytes[_2]->val)
+				{
+					line = addr - 1;
+				}
+			}break;
+
+			/**
+			 * jbe
+			 */
+			case 24:
+			{
+				_u64 addr = this->stack->pop(line);
+				check_addr(addr,line,line_num)
+				if ((_u64)this->bytes[_1]->val < (_u64)this->bytes[_2]->val)
+				{
+					line = addr - 1;
+				}
 			}break;
 				
 			/**
