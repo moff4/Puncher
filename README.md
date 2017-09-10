@@ -14,8 +14,8 @@ cell: `[00 02] [00 00 02] [00 00 03]`
 
 ### Data
 64bit in line is one memory cell  
-Memory cell can be data or command with args and there differens between them only in runtime.  
-So here we get:
+Memory cell can be data or command with args and there is differens between them only in runtime.  
+So then we get:
 * Maximum usigned integer value = 2^64-1
 * Maximum address length = 2^24-1 (That's also max size of ur program)
 * Maximum number of different commands = 2^16-1
