@@ -11,11 +11,6 @@ each 32bit is a memory cell that contains:
 * 1 command (2 bytes);  
 * 2 args (2 x 3 bytes);  
 cell: [00 02] [00 00 02] [00 00 03]  
-          |       |            |
-command --+       |   2nd arg -+
-                  |
-        1st arg --+
-
 
 ### Data
 64bit in line is one memory cell  
