@@ -105,10 +105,36 @@ read stdin from data according to [type](https://github.com/moff4/Puncher#types-
 String is sequence of bytes ended with zero byte.  
 String starts from first (left) byte that is not zero in cell (64bit) and can take as much bytes as it needs and the address of this string will be number of the first line that this string uses.  
 Long strings can have first byte on one line and the last on the next one (or even any longer), the value will be between them even if its more then 100500 bytes  
+Example:  
+This
+`1| 00 48  69 2C 20  6D 61 6E # st = "Hi, man"`  
+`2| 21 21  21 0A 00  00 00 00 # .st = "!!!\n"`
+Same to this  
+`1| 48 69  2C 20 6D  61 6E 21 # st = "Hi, man!"`
+`2| 21 21  0A 00 00  00 00 00 # .st = "!!\n"`
+Also this:  
+`1| 00 00  00 00 00  00 00 48 # st = "H"`
+`2| 69 2C  20 6D 61  6E 21 21 # .st = "i, man!!"`
+`3| 21 0A  00 00 00  00 00 00 # .st = "!\n"`
+
+But not this:  
+`1| 00 00  00 00 00  00 00 00 # nothing here`
+`2| 48 69  2C 20 6D  61 6E 21 # st = "Hi, man!"`
+`3| 21 21  0A 00 00  00 00 00 # .st = "!!\n"`
+
 
 ### What is char?
 Char is the lowest (rightest) byte in cell.  
 Read or write char means that data will be written or read from only one byte in cell
+Example:  
+This
+`1| 00 00  00 00 00  00 00 0A # C = '\n'`
+Same to this  
+`1| 00 00  00 00 00  00 FF 0A # C = '\n'`
+But not this  
+`1| 00 00  00 00 00  00 0A 00 # C = '\0'`
+or this
+`1| 0A 00  00 00 00  00 00 00 # C != '\0'`
 
 ## How to run program?
 **Windows**: ¯\\_(ツ)_/¯  
@@ -131,9 +157,15 @@ Flags:
 ` if u put flag to wrong encoding u'll get unknown behaviour`  
 
 ## TO DO LIST  
-- write (string)
 - read (all types)
 - add flow control commands 
 - add `LOOP <addr CX> <or addr to jmp>`
 
+# Hello World, Bro!
 
+`00 06  00 00 04  00 00 00 # jmp line #4 ------+      # zero line`
+`48 65  6c 6C 6f  20 57 6F # st = "Hello Wo"   |      # 1st  line`
+`72 6C  64 2c 20  42 72 6F # .st = "rld, Bro"  |      # 2nd  line`
+`21 0a  00 00 00  00 00 00 # .st = '!\n\0'     |      # 3rd  line`
+`00 09  00 00 01  00 00 02 # write st string <-+      # ...      `
+`FF FF  FF FF FF  FF FF FF # END PROGRAM                         `

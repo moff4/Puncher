@@ -113,7 +113,14 @@ Bytes ** Lord::hex(int fe)
             }
             else
             {
-                q = st[j] - 'A' + 10;
+                if ((st[j]>='A')and(st[j]<='Z'))
+                {
+                    q = st[j] - 'A' + 10;
+                }
+                else
+                {
+                    q = st[j] - 'a' + 10;   
+                }
             }
             bt[num]->val += (q * k);
             k*=_k;
