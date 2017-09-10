@@ -10,7 +10,7 @@ Example: `00 02  00 00 02  00 00 03 # ADD (*2) (*3)`
 each 32bit is a memory cell that contains:  
 * 1 command (2 bytes);  
 * 2 args (2 x 3 bytes);  
-cell: [00 02] [00 00 02] [00 00 03]  
+cell: `[00 02] [00 00 02] [00 00 03]`  
 
 ### Data
 64bit in line is one memory cell  
@@ -126,7 +126,7 @@ Flags:
 ` -b - code has binary encording`  
 ` --conv-hex - convert code to hex`  
 ` --conv-boo - convert code to {0|1}*`  
-` --conv-bin - convert code to binary`    
+` --conv-bin - convert code to binary`  
 ` new_filename - name of file for convertor input`   
 ` if u put flag to wrong encoding u'll get unknown behaviour`  
 

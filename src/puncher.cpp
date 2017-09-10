@@ -79,6 +79,14 @@ bool Puncher::load(string mod)
 	return bt == NULL;
 }
 
+/**
+ * search Bytes for string 
+ */
+string Puncher::get_string(_u64 line)
+{
+	return "";
+}
+
 //#define EXTRA_OUTPUT_2
 //#define EXTRA_OUTPUT_1
 #define COMMAND(x)						((x & 0xFFFF000000000000) >> 48)
@@ -351,7 +359,7 @@ bool Puncher::start()
 			case 11:
 			{
 				check_addr(_1,line,line_num)
-				this->bytes[_1]->val = this->bytes[_1]->val << this->bytes[_2]->val;
+				this->bytes[_1]->val = this->bytes[_1]->val << _2;
 			}break;
 
 			/**
@@ -360,7 +368,7 @@ bool Puncher::start()
 			case 12:
 			{
 				check_addr(_1,line,line_num)
-				this->bytes[_1]->val = this->bytes[_1]->val >> this->bytes[_2]->val;
+				this->bytes[_1]->val = this->bytes[_1]->val >> _2;
 			}break;
 
 			/**
@@ -369,7 +377,7 @@ bool Puncher::start()
 			case 13:
 			{
 				check_addr(_1,line,line_num)
-				this->bytes[_1]->val = this->bytes[_1]->val << (this->bytes[_2]->val * 8);
+				this->bytes[_1]->val = this->bytes[_1]->val << (_2 * 8);
 			}break;
 
 			/**
@@ -378,7 +386,7 @@ bool Puncher::start()
 			case 14:
 			{
 				check_addr(_1,line,line_num)
-				this->bytes[_1]->val = this->bytes[_1]->val >> (this->bytes[_2]->val * 8);
+				this->bytes[_1]->val = this->bytes[_1]->val >> (_2 * 8);
 			}break;
 				
 			/**
@@ -387,6 +395,7 @@ bool Puncher::start()
 			case 65535:{return false;}break;
 			default:{
 				cout<<"UNKNOWN COMMAND: "<<COMMAND(x)<<" line: "<<line<<endl;
+				return true;
 			}break;
 		}
 	}
