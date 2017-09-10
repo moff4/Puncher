@@ -34,7 +34,7 @@ class Puncher
 	/**
 	 * search Bytes for string 
 	 */
-	std::string get_string(_u64 line);
+	std::string get_string(_u64,_u64);
 public:
 
 	/**

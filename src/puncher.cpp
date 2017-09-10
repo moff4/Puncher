@@ -82,8 +82,29 @@ bool Puncher::load(string mod)
 /**
  * search Bytes for string 
  */
-string Puncher::get_string(_u64 line)
+string Puncher::get_string(_u64 line,_u64 line_num)
 {
+	int i;
+	string st = "";
+	for (i=7;(_byte(this->bytes[line]->val,i)==0) && (i>=0);i--);
+	if (i < 0)
+	{
+		return "";
+	}
+
+	while (line < line_num)
+	{
+		for (;(_byte(this->bytes[line]->val,i)!=0) && (i>=0);i--)
+		{
+			st += (char)_byte(this->bytes[line]->val,i);
+		}
+		if (i >= 0)
+		{
+			return st;
+		}
+		line ++ ;
+		i = 7;
+	}
 	return "";
 }
 
@@ -252,7 +273,8 @@ bool Puncher::start()
 					 */
 					case 2:
 					{
-
+						string st = get_string(_1,line_num);
+						cout << st;
 					}break;
 					
 					/**
