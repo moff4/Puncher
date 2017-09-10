@@ -1,6 +1,14 @@
 # Puncher
 Punched card emulator
 
+Hello Word, Bro!
+`0000 0000 0000 0110 0000 0000 0000 0000 0000 0100 0000 0000 0000 0000 0000 0000`  
+`0100 1000 0110 0101 0110 1100 0110 1100 0110 1111 0010 0000 0101 0111 0110 1111`  
+`0111 0010 0110 1100 0110 0100 0010 1100 0010 0000 0100 0010 0111 0010 0110 1111`  
+`0010 0001 0000 1010 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000`  
+`0000 0000 0000 1001 0000 0000 0000 0000 0000 0001 0000 0000 0000 0000 0000 0010`  
+`1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111`  
+
 ## How it works?
 
 64bit in line in hexcode with spaces/tabs and comments after '#' (or binary code)  
@@ -160,12 +168,3 @@ Flags:
 - read (all types)
 - add flow control commands 
 - add `LOOP <addr CX> <or addr to jmp>`
-
-# Hello World, Bro!
-
-`0| 00 06  00 00 04  00 00 00 # jmp line #4`  
-`1| 48 65  6c 6C 6f  20 57 6F # st = "Hello Wo"`  
-`2| 72 6C  64 2c 20  42 72 6F # .st = "rld, Bro"`  
-`3| 21 0a  00 00 00  00 00 00 # .st = '!\n\0'`  
-`4| 00 09  00 00 01  00 00 02 # write st string`  
-`5| FF FF  FF FF FF  FF FF FF # END PROGRAM`  
