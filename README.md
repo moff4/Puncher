@@ -163,9 +163,9 @@ Flags:
 
 # Hello World, Bro!
 
-`00 06  00 00 04  00 00 00 # jmp line #4 ------+      # zero line`
-`48 65  6c 6C 6f  20 57 6F # st = "Hello Wo"   |      # 1st  line`
-`72 6C  64 2c 20  42 72 6F # .st = "rld, Bro"  |      # 2nd  line`
-`21 0a  00 00 00  00 00 00 # .st = '!\n\0'     |      # 3rd  line`
-`00 09  00 00 01  00 00 02 # write st string <-+      # ...      `
-`FF FF  FF FF FF  FF FF FF # END PROGRAM                         `
+`00 06  00 00 04  00 00 00 # jmp line #4 ------+      # zero line`  
+`48 65  6c 6C 6f  20 57 6F # st = "Hello Wo"   |      # 1st  line`  
+`72 6C  64 2c 20  42 72 6F # .st = "rld, Bro"  |      # 2nd  line`  
+`21 0a  00 00 00  00 00 00 # .st = '!\n\0'     |      # 3rd  line`  
+`00 09  00 00 01  00 00 02 # write st string <-+      # ...      `  
+`FF FF  FF FF FF  FF FF FF # END PROGRAM                         `  
