@@ -118,6 +118,7 @@ Alternative variant:
 Example:  
 `$ make -j ; ./build/puncher test/test.hex`  
 
+Flags:
 `pucher [filename] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]`  
 ` filename - name of file with code`  
 ` -h - code encording is hex (default)`  
@@ -133,6 +134,6 @@ Example:
 - write (string)
 - read (all types)
 - add flow control commands 
-- add "LOOP <addr CX> <or addr to jmp>"
+- add `LOOP <addr CX> <or addr to jmp>`
 
 
