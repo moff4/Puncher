@@ -52,6 +52,6 @@ public:
 	/**
 	 * pop out of Stack
 	 */
-	_u64 pop();
+	_u64 pop(_u64);
 };
 #endif /* STACK_H */

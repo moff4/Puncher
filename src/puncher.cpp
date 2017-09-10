@@ -191,6 +191,11 @@ bool Puncher::start()
 			case 5:
 			{
 				check_addrs(_1,_2,line,line_num)
+				if (this->bytes[_2]->val == 0)
+				{
+					cout<<"DIVISION ERROR: division by zero; line: "<<line<<endl;
+					return true;
+				}
 				this->bytes[_1]->val = this->bytes[_1]->val / this->bytes[_2]->val;
 			}break;
 
@@ -218,7 +223,8 @@ bool Puncher::start()
 			case 8:
 			{
 				check_addr(_1,line,line_num)
-				this->bytes[_1]->val = stack -> pop();
+				_u64 y = stack -> pop(line);
+				this->bytes[_1]->val = y
 			}break;
 
 			/**

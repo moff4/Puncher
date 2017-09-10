@@ -50,8 +50,14 @@ void Stack::push(_u64 x)
 /**
  * pop out of Stack
  */
-_u64 Stack::pop()
+_u64 Stack::pop(_u64 line)
 {
+	if (this->bl == NULL)
+	{
+		cout<<"STACK ERROR: pop when it's empty ; line: "<<line<<endl;
+		exit(1);
+		return 0;
+	}
 	block*cx = this->bl->pr;
 	this->bl->pr = NULL;
 	_u64 y = this->bl->x;

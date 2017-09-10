@@ -47,6 +47,18 @@ So then we get:
 |	12.				|	[shr](https://github.com/moff4/Puncher#12-shr)		|	address			|	number																	|
 |	13.				|	[shl8](https://github.com/moff4/Puncher#13-shl8)	|	address			|	number																	|
 |	14.				|	[shr8](https://github.com/moff4/Puncher#14-shr8)	|	address			|	number																	|
+|	15.				|	[je](https://github.com/moff4/Puncher#15-je)		|	address			|	address																	|
+|	16.				|	[jne](https://github.com/moff4/Puncher#16-jne)		|	address			|	address																	|
+|	17.				|	[jg](https://github.com/moff4/Puncher#17-jg)		|	address			|	address																	|
+|	18.				|	[jge](https://github.com/moff4/Puncher#18-jge)		|	address			|	address																	|
+|	19.				|	[ja](https://github.com/moff4/Puncher#19-ja)		|	address			|	address																	|
+|	20.				|	[jae](https://github.com/moff4/Puncher#20-jae)		|	address			|	address																	|
+|	21.				|	[jl](https://github.com/moff4/Puncher#21-jl)		|	address			|	address																	|
+|	22.				|	[jle](https://github.com/moff4/Puncher#22-jle)		|	address			|	address																	|
+|	23.				|	[jb](https://github.com/moff4/Puncher#23-jb)		|	address			|	address																	|
+|	24.				|	[jbe](https://github.com/moff4/Puncher#24-jbe)		|	address			|	address																	|
+
+
 
 * "1st" means "data in 1st addreess"
 * "2nd" means "data in 2st addreess"
@@ -99,6 +111,47 @@ read stdin from data according to [type](https://github.com/moff4/Puncher#types-
 
 #### 14. shr8  
 1st = 1st / ( 16 * 2nd)
+
+#### 15. je  
+addr = stack.pop()  
+jump to addr if 1st == 2nd  
+
+#### 16. jne  
+addr = stack.pop()  
+jump to addr if 1st != 2nd  
+
+#### 17. jg  
+addr = stack.pop()  
+jump to addr if (signed)1st > (signed)2nd  
+
+#### 18. jge  
+addr = stack.pop()  
+jump to addr if (signed)1st >= (signed)2nd  
+
+#### 19. ja  
+addr = stack.pop()  
+jump to addr if (unsigned)1st > (unsigned)2nd  
+
+#### 20. jae  
+addr = stack.pop()  
+jump to addr if (unsigned)1st >= (unsigned)2nd  
+
+#### 21. jl  
+addr = stack.pop()
+jump to addr if (signed)1st < (signed)2nd  
+
+#### 22. jle  
+addr = stack.pop()
+jump to addr if (signed)1st <= (signed)2nd  
+
+#### 23. jb  
+addr = stack.pop()
+jump to addr if (unsigned)1st < (unsigned)2nd  
+
+#### 24. jbe  
+addr = stack.pop()
+jump to addr if (unsigned)1st < (unsigned)2nd  
+
 
 #### Types of input and output data  
 0) unsigned int (dec) 
