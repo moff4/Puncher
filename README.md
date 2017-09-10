@@ -111,8 +111,12 @@ Char is the lowest (rightest) byte in cell.
 Read or write char means that data will be written or read from only one byte in cell
 
 ## How to run program?
-Linux/Unix: write magic number to this interpreter: `#!/path/pucher`  
-Windows: ¯\\_(ツ)_/¯
+**Windows**: ¯\\_(ツ)_/¯  
+**Linux/Unix**: write magic number to this interpreter: `#!/path/pucher`  
+
+Alternative variant:  
+Example:  
+`$ make -j ; ./build/puncher test/test.hex`  
 
 `pucher [filename] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]`  
 ` filename - name of file with code`  
@@ -124,9 +128,6 @@ Windows: ¯\\_(ツ)_/¯
 ` --conv-bin - convert code to binary`    
 ` new_filename - name of file for convertor input`   
 ` if u put flag to wrong encoding u'll get unknown behaviour`  
-
-Example:  
-`$ make -j ; ./build/puncher test/test.hex`  
 
 ## TO DO LIST  
 - write (string)
