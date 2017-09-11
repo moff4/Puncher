@@ -11,14 +11,14 @@ Hello Word!
 
 ## How to run program?
 **Windows**: ¯\\_(ツ)_/¯  
-**Linux/Unix**: write magic number to this interpreter: `#!/path/pucher`  
+**Linux/OS X**: write magic number to this interpreter: `#!/path/pucher`  
 
-Alternative variant:  
+Alternative variant for *nix:  
 Example:  
 `$ make -j && ./build/puncher test/hello.hex`  
 
 Flags:  
-`pucher [filename] [-?|--help] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]`  
+`pucher  [-?|--help|-v|--version] | [[filename] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]]`  
 ` filename - name of file with code`  
 ` -h - code encording is hex (default)`  
 ` -0 - code encording contains only 0 and 1`  
@@ -28,6 +28,8 @@ Flags:
 ` --conv-bin - convert code to binary`  
 ` -? - see this message`
 ` --help - see this message`
+` -v - version`
+` --version - version`
 ` new_filename - name of file for convertor input`   
 ` if u put flag to wrong encoding u'll get unknown behaviour`  
 
@@ -53,41 +55,46 @@ So then we get:
 
 
 ### Commands
-| number(2bytes)	|	command												| 1st arg (3bytes)  | 2nd arg (3bytes)															|
-|-------------------|-------------------------------------------------------|-------------------|---------------------------------------------------------------------------|
-|  -1.				|	[exit](https://github.com/moff4/Puncher#-1-exit)	|	-1				|	-1																		|
-|	1.				|	[mov](https://github.com/moff4/Puncher#1-mov)		|	address			|	address																	|
-|	2.				|	[add](https://github.com/moff4/Puncher#2-add)		|	address			|	address																	|
-|	3.				|	[sub](https://github.com/moff4/Puncher#3-sub)		|	address			|	address																	|
-|	4.				|	[mul](https://github.com/moff4/Puncher#4-mul)		|	address			|	address																	|
-|	5.				|	[div](https://github.com/moff4/Puncher#5-div)		|	address			|	address																	|
-|	6.				|	[jmp](https://github.com/moff4/Puncher#6-jmp)		|	address			|	nothing																	|
-|	7.				|	[push](https://github.com/moff4/Puncher#7-push)		|	address			|	nothing																	|
-|	8.				|	[pop](https://github.com/moff4/Puncher#8-pop)		|	address			|	nothing																	|
-|	9.				|	[write](https://github.com/moff4/Puncher#9-write)	|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)|
-|	10.				|	[read](https://github.com/moff4/Puncher#10-read)	|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)|
-|	11.				|	[shl](https://github.com/moff4/Puncher#11-shl)		|	address			|	number																	|
-|	12.				|	[shr](https://github.com/moff4/Puncher#12-shr)		|	address			|	number																	|
-|	13.				|	[shl8](https://github.com/moff4/Puncher#13-shl8)	|	address			|	number																	|
-|	14.				|	[shr8](https://github.com/moff4/Puncher#14-shr8)	|	address			|	number																	|
-|	15.				|	[je](https://github.com/moff4/Puncher#15-je)		|	address			|	address																	|
-|	16.				|	[jne](https://github.com/moff4/Puncher#16-jne)		|	address			|	address																	|
-|	17.				|	[jg](https://github.com/moff4/Puncher#17-jg)		|	address			|	address																	|
-|	18.				|	[jge](https://github.com/moff4/Puncher#18-jge)		|	address			|	address																	|
-|	19.				|	[ja](https://github.com/moff4/Puncher#19-ja)		|	address			|	address																	|
-|	20.				|	[jae](https://github.com/moff4/Puncher#20-jae)		|	address			|	address																	|
-|	21.				|	[jl](https://github.com/moff4/Puncher#21-jl)		|	address			|	address																	|
-|	22.				|	[jle](https://github.com/moff4/Puncher#22-jle)		|	address			|	address																	|
-|	23.				|	[jb](https://github.com/moff4/Puncher#23-jb)		|	address			|	address																	|
-|	24.				|	[jbe](https://github.com/moff4/Puncher#24-jbe)		|	address			|	address																	|
-|	25.				|	[alloc](https://github.com/moff4/Puncher#25-alloc)	|	number			|	nothing																	|
-|	26.				|	[loop](https://github.com/moff4/Puncher#26-loop)	|	address			|	address																	|
+| number(2bytes)	|	command												| 1st arg (3bytes)  | 2nd arg (3bytes)																|
+|-------------------|-------------------------------------------------------|-------------------|-------------------------------------------------------------------------------|
+|  -1.				|	[exit](https://github.com/moff4/Puncher#-1-exit)	|	-1				|	-1																			|
+|	1.				|	[mov](https://github.com/moff4/Puncher#1-mov)		|	address			|	address																		|
+|	2.				|	[add](https://github.com/moff4/Puncher#2-add)		|	address			|	address																		|
+|	3.				|	[sub](https://github.com/moff4/Puncher#3-sub)		|	address			|	address																		|
+|	4.				|	[mul](https://github.com/moff4/Puncher#4-mul)		|	address			|	address																		|
+|	5.				|	[div](https://github.com/moff4/Puncher#5-div)		|	address			|	address																		|
+|	6.				|	[jmp](https://github.com/moff4/Puncher#6-jmp)		|	address			|	nothing																		|
+|	7.				|	[push](https://github.com/moff4/Puncher#7-push)		|	address			|	nothing																		|
+|	8.				|	[pop](https://github.com/moff4/Puncher#8-pop)		|	address			|	nothing																		|
+|	9.				|	[write](https://github.com/moff4/Puncher#9-write)	|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
+|	10.				|	[read](https://github.com/moff4/Puncher#10-read)	|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
+|	11.				|	[shl](https://github.com/moff4/Puncher#11-shl)		|	address			|	number																		|
+|	12.				|	[shr](https://github.com/moff4/Puncher#12-shr)		|	address			|	number																		|
+|	13.				|	[shl8](https://github.com/moff4/Puncher#13-shl8)	|	address			|	number																		|
+|	14.				|	[shr8](https://github.com/moff4/Puncher#14-shr8)	|	address			|	number																		|
+|	15.				|	[je](https://github.com/moff4/Puncher#15-je)		|	address			|	address																		|
+|	16.				|	[jne](https://github.com/moff4/Puncher#16-jne)		|	address			|	address																		|
+|	17.				|	[jg](https://github.com/moff4/Puncher#17-jg)		|	address			|	address																		|
+|	18.				|	[jge](https://github.com/moff4/Puncher#18-jge)		|	address			|	address																		|
+|	19.				|	[ja](https://github.com/moff4/Puncher#19-ja)		|	address			|	address																		|
+|	20.				|	[jae](https://github.com/moff4/Puncher#20-jae)		|	address			|	address																		|
+|	21.				|	[jl](https://github.com/moff4/Puncher#21-jl)		|	address			|	address																		|
+|	22.				|	[jle](https://github.com/moff4/Puncher#22-jle)		|	address			|	address																		|
+|	23.				|	[jb](https://github.com/moff4/Puncher#23-jb)		|	address			|	address																		|
+|	24.				|	[jbe](https://github.com/moff4/Puncher#24-jbe)		|	address			|	address																		|
+|	25.				|	[alloc](https://github.com/moff4/Puncher#25-alloc)	|	number			|	nothing																		|
+|	26.				|	[loop](https://github.com/moff4/Puncher#26-loop)	|	address			|	address																		|
+|	27.				|	[open](https://github.com/moff4/Puncher#27-open)	|	address			|	flags																		|
+|	28.				|	[close](https://github.com/moff4/Puncher#28-close)	|	address			|	nothing																		|
+|	29.				|	[fread](https://github.com/moff4/Puncher#29-fread)	|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
+|	30.				|	[fwrite](https://github.com/moff4/Puncher#30-fwrite)|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
 
 
 "1st" and "2nd" means:
 * data at memmory cell with address == ith arg if arg == "address"
-* number == ith arg if arg == "number"
+* number = ith arg if arg == "number"
 * number in range(0,5) if arg == "oitype"
+* smth special binary; read command manual
 
 #### -1. exit  
 Just stops program  
@@ -188,6 +195,42 @@ if value in 1st address != 0
 then value in 1st address -= 1  
 and goto 2nd address  
 else do nothing
+
+#### 27. open  
+1st arg - link to string == filename  
+2nd arg - rights & Mod to open file  
+result (file descriptor) will be pushed to stack  
+mod:  
+* 1  | O_RDONLY        open for reading only  
+* 2  | O_WRONLY        open for writing only  
+* 4  | O_APPEND        append on each write  
+* 8  | O_CREAT         create file if it does not exist  
+* 16 | O_TRUNC         truncate size to 0  
+* 32 | O_NOFOLLOW      do not follow symlinks  
+* 64 | O_SYMLINK       allow open of symlinks  
+Rights: left 9bits (not 12 or 16!) in 2nd arg:  
+* 000****** - owner ; 1st bit - read 
+* ***000*** - group ; 2nd bit - write
+* ******000 - others; 3rd bit - execute
+Example:  
+`00 1B 00 00 01 D2 00 1A # open; mod = 00011001 <=> 16 + 8 + 2 <=> O_WRONLY|O_CREAT|O_TRUNC`  
+`#Rights = D2 0 - 1101 0010 0 <=> 110 100 100 <=> rw/r/r`  
+
+In case of error result < 0  
+
+#### 28. close  
+1st arg - link to file descriptor  
+
+#### 29. fread  
+file descriptor = stack.pop()
+1st arg - link to cells where data will be put  
+2nd - iotype  
+
+#### 30. fwrite  
+file descriptor = stack.pop()
+1st arg - link to data  
+2nd - iotype  
+
 
 #### Types of input and output data  
 0) unsigned int (dec) 

@@ -8,6 +8,7 @@
 using namespace std;
 
 void _print_help(void);
+void _print_version(void);
 void parse_argv(int w,const char ** stt, string& filename,string& mod, string& conv, string& new_filename);
 
 
@@ -71,7 +72,7 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
             }
             else
             {
-                cout<<"unexpected flag: "<<stt[i]<<endl;
+                cout<<"unexpected flag: "<<stt[i]<<"; Try \"-?\" for more info"<<endl;
                 exit(1);
             }
         }
@@ -84,7 +85,7 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
             }
             else
             {
-                cout<<"unexpected flag: "<<stt[i]<<endl;
+                cout<<"unexpected flag: "<<stt[i]<<"; Try \"-?\" for more info"<<endl;
                 exit(1);
             }
         }
@@ -97,7 +98,7 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
             }
             else
             {
-                cout<<"unexpected flag: "<<stt[i]<<endl;
+                cout<<"unexpected flag: "<<stt[i]<<"; Try \"-?\" for more info"<<endl;
                 exit(1);
             }
         }
@@ -130,7 +131,7 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
             }
             else
             {
-                cout<<"unexpected flag: "<<stt[i]<<endl;
+                cout<<"unexpected flag: "<<stt[i]<<"; Try \"-?\" for more info"<<endl;
                 exit(1);
             }
         }
@@ -163,7 +164,7 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
             }
             else
             {
-                cout<<"unexpected flag: "<<stt[i]<<endl;
+                cout<<"unexpected flag: "<<stt[i]<<"; Try \"-?\" for more info"<<endl;
                 exit(1);
             }
         }
@@ -196,13 +197,18 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
             }
             else
             {
-                cout<<"unexpected flag: "<<stt[i]<<endl;
+                cout<<"unexpected flag: "<<stt[i]<<"; Try \"-?\" for more info"<<endl;
                 exit(1);
             }
         }
         else if ((st == "-?") || (st == "--help"))
         {
             _print_help();
+            exit(0);
+        }
+        else if ((st == "-v") || (st == "--version"))
+        {
+            _print_version();
             exit(0);
         }
         else
@@ -214,11 +220,21 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
             }
             else
             {
-                cout<<"expect only one filename: "<<stt[i]<<endl;
+                cout<<"expect only one filename: "<<stt[i]<<"; Try \"-?\" for more info"<<endl;
                 exit(1);
             }
         }
     }
+}
+
+/**
+ * print version info
+ */
+void _print_version(void)
+{
+    cout<<"Puched card emulator"<<endl;
+    cout<<"Version: 0.9"<<endl;
+    cout<<"Git: https://github.com/moff4/Puncher"<<endl;
 }
 
 /**
@@ -227,7 +243,7 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
 void _print_help(void)
 {
     cout<<"Puched card emulator"<<endl;
-    cout<<"[filename] [-?|--help] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]"<<endl;
+    cout<<"[-?|--help|-v|--version] | [[filename] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]]"<<endl;
     cout<<" filename - name of file with code"<<endl;
     cout<<" -h - code encording is hex (default)"<<endl;
     cout<<" -0 - code encording contains only 0 and 1"<<endl;
@@ -237,6 +253,8 @@ void _print_help(void)
     cout<<" --conv-bin - convert code to binary"<<endl;
     cout<<" -? - see this message"<<endl;
     cout<<" --help - see this message"<<endl;
+    cout<<" -v - version"<<endl;
+    cout<<" --version - version"<<endl;
     cout<<"new_filename - name of file for convertor input"<<endl;
     cout<<"Extra info at https://github.com/moff4/Puncher"<<endl;
 }

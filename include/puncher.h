@@ -35,6 +35,24 @@ class Puncher
 	 * search Bytes for string 
 	 */
 	std::string get_string(_u64,_u64);
+
+	/**
+	 * convert string to _u64
+	 */
+	_u64 _str_to_u64(std::string,_u64);
+
+	/**
+	 * convert string to _i64
+	 */
+	_i64 _str_to_i64(std::string,_u64);
+
+	/**
+	 * put string in memory
+	 * the first byte is the leftest in line # _u64
+	 * the last byte '\0' can be alloceted on another line (dependes on string lenght)
+	 */
+	void _put_string(_u64,std::string);
+	
 public:
 
 	/**

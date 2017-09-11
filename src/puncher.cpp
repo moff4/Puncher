@@ -11,6 +11,7 @@
 
 using namespace std;
 
+#define _MAX 0xFFFFFFFFFFFFFFFF
 /**
  * init
  * arg - name of file with code
@@ -85,31 +86,80 @@ bool Puncher::load(string mod)
 /**
  * search Bytes for string 
  */
-string Puncher::get_string(_u64 line,_u64 line_num)
+inline string Puncher::get_string(_u64 line,_u64 line_num)
 {
-	int i;
+	_i64 i=0;
 	string st = "";
-	for (i=7;(_byte(this->bytes[line]->val,i)==0) && (i>=0);i--);
-	if (i < 0)
+	for (;_byte(this->bytes[line+(i>>3)]->val,(7-(i&0x7)))!=0x00;i++)
 	{
-		return "";
+		st += _byte(this->bytes[line+(i>>3)]->val,(7-(i&0x7)));
 	}
-
-	while (line < line_num)
-	{
-		for (;(_byte(this->bytes[line]->val,i)!=0) && (i>=0);i--)
-		{
-			st += (char)_byte(this->bytes[line]->val,i);
-		}
-		if (i >= 0)
-		{
-			return st;
-		}
-		line ++ ;
-		i = 7;
-	}
-	return "";
+	return st;
 }
+
+/**
+ * convert string to _u64
+ */
+inline _u64 Puncher::_str_to_u64(string st,_u64 line)
+{
+	_u64 x = 0;
+	for (_u64 i=0;i<st.length();i++)
+	{
+		if ((st[i]<'0')or(st[i]>'9'))
+		{
+			cout<<"STR_TO_U64 ERROR: got unexpected char: "<<(int)st[i]<<"; line: "<<line<<endl;
+			exit(1);
+		}
+		x *= 10;
+		x += st[i] - '0';
+	}
+	return x;
+}
+
+/**
+ * convert string to _i64
+ */
+inline _i64 Puncher::_str_to_i64(string st,_u64 line)
+{
+	_i64 x,i=st[0]=='-';
+	for (;i<st.length();i++)
+	{
+		if ((st[i]<'0')or(st[i]>'9'))
+		{
+			cout<<"STR_TO_U64 ERROR: got unexpected char: "<<(int)st[i]<<"; line: "<<line<<endl;
+			exit(1);
+		}
+		x *= 10;
+		x += st[i] - '0';
+	}
+	x *= -1 * (st[0]=='-');
+	return x;
+}
+
+/**
+ * put string in memory
+ * the first byte is the leftest in line # _u64
+ * the last byte '\0' can be alloceted on another line (dependes on string length)
+ */
+inline void Puncher::_put_string(_u64 line,string st)
+{
+	/**
+	 * It's fuckingly works!
+	 */
+	_u64 i=0;
+	for (;i<st.length();i++)
+	{
+		if ((i & 0x7) == 0)
+		{
+			this->bytes[line+(i>>3)]->val = _MAX;
+		}
+		_u64 z = (~((_u64)0xFF << 8*(7 - (i & 0x7)))) | ((_u64)st[i] << 8*(7 - (i & 0x7)));
+		this->bytes[line+(i>>3)]->val &= z; 
+	}
+	this->bytes[line+(i>>3)]->val &= (~((_u64)0xFF << 8*(7 - (i & 0x7))));
+}
+
+
 
 //#define EXTRA_OUTPUT_2
 //#define EXTRA_OUTPUT_1
@@ -351,7 +401,16 @@ bool Puncher::start()
 					/**
 					 * string
 					 */
-					case 2:{}break;
+					case 2:
+					{
+						_u64 q;
+						string st = "";
+						while (((q=getchar())!=(_u64)EOF)and(q!='\r')and(q!='\n'))
+						{
+							st += q;
+						}
+						_put_string(_1,st);
+					}break;
 					
 					/**
 					 * char
@@ -617,12 +676,304 @@ bool Puncher::start()
 					line = _2 - 1;
 				}
 			}break;
-				
+
+			/**
+			 * open
+			 * 1  | O_RDONLY        open for reading only  
+			 * 2  | O_WRONLY        open for writing only  
+			 * 4  | O_APPEND        append on each write  
+			 * 8  | O_CREAT         create file if it does not exist  
+			 * 16 | O_TRUNC         truncate size to 0  
+			 * 32 | O_NOFOLLOW      do not follow symlinks  
+			 * 64 | O_SYMLINK       allow open of symlinks  
+			 */
+			case 27:
+			{
+				check_addr(_1,line,line_num)
+				string st = get_string(_1,line_num);
+				if (st=="")
+				{
+					cout<<"OPEN ERROR: filename empty; line"<<line<<endl;
+					return true;
+				}
+				_u64 rights = (0xFF8000 & _2) >> 15 ;
+				_u64 mod = 0;
+				if (_2 & (1 )) mod += O_RDONLY;
+				if (_2 & (2 )) mod += O_WRONLY;
+				if (_2 & (4 )) mod += O_APPEND;
+				if (_2 & (8 )) mod += O_CREAT;
+				if (_2 & (16)) mod += O_TRUNC;
+				if (_2 & (32)) mod += O_NOFOLLOW;
+				if (_2 & (64)) mod += O_SYMLINK;
+				this->stack->push((_u64)open(st.c_str(),mod,rights));
+			}break;
+
+			/**
+			 * close
+			 */
+			case 28:
+			{
+				check_addr(_1,line,line_num)
+				close(_1);
+			}break;
+
+			/**
+			 * fread
+			 */
+			case 29:
+			{
+				#ifdef EXTRA_OUTPUT_1
+				cout<<"FILE INPUT: ";
+				#endif /* EXTRA_OUTPUT_1 */
+				check_addr(_1,line,line_num)
+				check_iotype(_2,line,line_num)
+				_u64 fd = this->stack->pop(line);
+
+				string st = "";
+				char q;
+				if (_2 == 3)
+				{
+					read(fd,&q,1);
+					st = q;
+				}
+				else
+				{
+					while (true)
+					{
+						read(fd,&q,1);
+						if ((_2 == 2)and(q!='\n')and(q!='\r'))
+						{
+							st += q;
+						}
+						else if ((_2 != 2)and(q!=' ')and(q!='\n')and(q!='\r'))
+						{
+							st += q;
+						}
+						else
+						{
+							break;
+						}
+					}
+				} 
+
+				switch (_2)
+				{
+					/**
+					 * unsigned int (dec)
+					 */
+					case 0:
+					{
+						this->bytes[_1]->val = this->_str_to_u64(st,line);
+					}break;
+
+					/**
+					 * signed int (dec)
+					 */
+					case 1:
+					{
+						this->bytes[_1]->val = this->_str_to_i64(st,line);
+					}break;
+					
+					/**
+					 * string
+					 */
+					case 2:
+					{
+						this->_put_string(_1,st);
+					}break;
+					
+					/**
+					 * char
+					 */
+					case 3:
+					{
+						_u8 q = st[0];
+						this->bytes[_1]->val = (_u64)q;
+					}break;
+					
+					/**
+					 * hex
+					 */
+					case 4:
+					{
+						int j = 0;
+						_u64 y = 0;
+						_u8 q;
+						for (int i=0;i<st.length();i++)
+						{	
+							/**
+							 * if there'll be nore then 16 letters we will automaticaly get mod 2**64 because of overflow
+							 */
+							q = st[i];
+							y = y << 4;
+							if ((q>='A')and(q<='F'))
+							{
+								y+=q-'A' + 10;
+							}
+							else if ((q>='a')and(q<='f'))
+							{
+								y+=q-'a' + 10;
+							}
+							else if ((q>='0')and(q<='9'))
+							{
+								y+=q-'0';
+							}
+							else
+							{
+								cout<<"FREAD ERROR: unexpected char: "<<(int)q<<"; line: "<<line<<endl;
+								return true;
+							}
+						}
+						this->bytes[_1]->val = y;
+					}break;
+					
+					/**
+					 * bin
+					 */
+					case 5:
+					{
+						int j = 0;
+						_u64 y = 0;
+						_u8 q;
+						for (int i=0;i<st.length();i++)
+						{	
+							/**
+							 * if there'll be nore then 64 letters we will automaticaly get mod 2**64 because of overflow
+							 */
+							y = y << 1;
+							if ((q=='0')or(q=='1'))
+							{
+								y+=q-'0';
+							}
+							else
+							{
+								cout<<"FREAD ERROR: unexpected char: "<<(int)q<<"; line: "<<line<<endl;
+								return true;
+							}
+						}
+						this->bytes[_1]->val = y;
+					}break;
+					
+					/**
+					 * unknown
+					 */
+					default:
+					{
+						cout<<"UNKNOWN TYPE FOR STDIN: "<<_2<<endl;
+						return true;
+					}break;
+				}
+			}break;
+
+			/**
+			 * fwrite
+			 */
+			case 30:
+			{
+				#ifdef EXTRA_OUTPUT_1
+				cout<<"FILE OUTPUT: ";
+				#endif /* EXTRA_OUTPUT_1 */
+				check_addr(_1,line,line_num)
+				check_iotype(_2,line,line_num)
+				_u64 fd = this->stack->pop(line);
+				switch (_2)
+				{
+					/**
+					 * usigned int (dec)
+					 */
+					case 0:
+					{
+						#ifdef __linux__
+						const char * mod = "%lu";
+						#else
+						const char * mod = "%llu";
+						#endif
+						char st[256];
+						sprintf(st,mod,this->bytes[_1]->val);
+						write(fd,st,strlen(st));
+					}break;
+
+					/**
+					 * signed int (dec)
+					 */
+					case 1:
+					{
+						#ifdef __linux__
+						const char * mod = "%ld";
+						#else
+						const char * mod = "%lld";
+						#endif
+						char st[256];
+						sprintf(st,mod,this->bytes[_1]->val);
+						write(fd,st,strlen(st));
+					}break;
+					
+					/**
+					 * string
+					 */
+					case 2:
+					{
+						string st = get_string(_1,line_num);
+						write(fd,st.c_str(),st.length());
+					}break;
+					
+					/**
+					 * char
+					 */
+					case 3:
+					{
+						char y = (char)(0xFF & this->bytes[_1]->val);
+						write(fd,&y,1);
+					}break;
+					
+					/**
+					 * hex
+					 */
+					case 4:
+					{
+						char st[512];
+						const char* mod;
+						#ifdef __linux__
+						mod = "%lx";
+						#else
+						mod = "%llx";
+						#endif
+						sprintf(st,mod,this->bytes[_1]->val);
+						write(fd,st,strlen(st));
+					}break;
+					
+					/**
+					 * bin
+					 */
+					case 5:
+					{
+						x = this->bytes[_1]->val;
+						string st = "";
+						for (int j=0;j<64;j++)
+						{
+							st = (char)(x%2+'0') + st;
+							x=x>>1;
+						}
+						write(fd,st.c_str(),st.length());
+					}break;
+					
+					/**
+					 * unknown
+					 */
+					default:
+					{
+						cout<<"UNKNOWN TYPE FOR STDOUT: "<<_2<<endl;
+						return true;
+					}break;
+				}
+			}break;
+
 			/**
 			 * exit
 			 */
 			case 65535:{return false;}break;
-			default:{
+			default:
+			{
 				cout<<"UNKNOWN COMMAND: "<<COMMAND(x)<<" line: "<<line<<endl;
 				return true;
 			}break;
