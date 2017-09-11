@@ -64,8 +64,8 @@ So then we get:
 |	6.				|	[jmp](https://github.com/moff4/Puncher#6-jmp)		|	address			|	nothing																	|
 |	7.				|	[push](https://github.com/moff4/Puncher#7-push)		|	address			|	nothing																	|
 |	8.				|	[pop](https://github.com/moff4/Puncher#8-pop)		|	address			|	nothing																	|
-|	9.				|	[write](https://github.com/moff4/Puncher#9-write)	|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
-|	10.				|	[read](https://github.com/moff4/Puncher#10-read)	|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
+|	9.				|	[write](https://github.com/moff4/Puncher#9-write)	|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)|
+|	10.				|	[read](https://github.com/moff4/Puncher#10-read)	|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)|
 |	11.				|	[shl](https://github.com/moff4/Puncher#11-shl)		|	address			|	number																	|
 |	12.				|	[shr](https://github.com/moff4/Puncher#12-shr)		|	address			|	number																	|
 |	13.				|	[shl8](https://github.com/moff4/Puncher#13-shl8)	|	address			|	number																	|
@@ -203,21 +203,20 @@ String is sequence of bytes ended with zero byte.
 String starts from first (left) byte that is not zero in cell (64bit) and can take as much bytes as it needs and the address of this string will be number of the first line that this string uses.  
 Long strings can have first byte on one line and the last on the next one (or even any longer), the value will be between them even if its more then 100500 bytes  
 Example:  
-This
-`1| 00 48  69 2C 20  6D 61 6E # st := "Hi, man"`  
-`2| 21 21  21 0A 00  00 00 00 # .st := "!!!\n"`
+This  
+`1| 00 48  69 2C 20  6D 61 6E # st := "Hi, man"`    
+`2| 21 21  21 0A 00  00 00 00 # .st := "!!!\n"`  
 Same to this  
-`1| 48 69  2C 20 6D  61 6E 21 # st := "Hi, man!"`
-`2| 21 21  0A 00 00  00 00 00 # .st := "!!\n"`
+`1| 48 69  2C 20 6D  61 6E 21 # st := "Hi, man!"`  
+`2| 21 21  0A 00 00  00 00 00 # .st := "!!\n"`  
 Also this:  
-`1| 00 00  00 00 00  00 00 48 # st := "H"`
-`2| 69 2C  20 6D 61  6E 21 21 # .st := "i, man!!"`
-`3| 21 0A  00 00 00  00 00 00 # .st := "!\n"`
-
+`1| 00 00  00 00 00  00 00 48 # st := "H"`  
+`2| 69 2C  20 6D 61  6E 21 21 # .st := "i, man!!"`  
+`3| 21 0A  00 00 00  00 00 00 # .st := "!\n"`  
 But not this:  
-`1| 00 00  00 00 00  00 00 00 # nothing here`
-`2| 48 69  2C 20 6D  61 6E 21 # st := "Hi, man!"`
-`3| 21 21  0A 00 00  00 00 00 # .st := "!!\n"`
+`1| 00 00  00 00 00  00 00 00 # nothing here`  
+`2| 48 69  2C 20 6D  61 6E 21 # st := "Hi, man!"`  
+`3| 21 21  0A 00 00  00 00 00 # .st := "!!\n"`  
 
 
 ### What is char?
