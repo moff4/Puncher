@@ -227,7 +227,7 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
 void _print_help(void)
 {
     cout<<"Puched card emulator"<<endl;
-    cout<<"[filename] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]"<<endl;
+    cout<<"[filename] [-?|--help] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]"<<endl;
     cout<<" filename - name of file with code"<<endl;
     cout<<" -h - code encording is hex (default)"<<endl;
     cout<<" -0 - code encording contains only 0 and 1"<<endl;
@@ -235,6 +235,8 @@ void _print_help(void)
     cout<<" --conv-hex - convert code to hex"<<endl;
     cout<<" --conv-boo - convert code to {0|1}"<<endl;
     cout<<" --conv-bin - convert code to binary"<<endl;
+    cout<<" -? - see this message"<<endl;
+    cout<<" --help - see this message"<<endl;
     cout<<"new_filename - name of file for convertor input"<<endl;
     cout<<"Extra info at https://github.com/moff4/Puncher"<<endl;
 }

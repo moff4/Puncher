@@ -1,13 +1,36 @@
 # Puncher
 Punched card emulator
 
-Hello Word, Bro!  
+Hello Word!  
 `0000 0000 0000 0110 0000 0000 0000 0000 0000 0100 0000 0000 0000 0000 0000 0000`  
 `0100 1000 0110 0101 0110 1100 0110 1100 0110 1111 0010 0000 0101 0111 0110 1111`  
 `0111 0010 0110 1100 0110 0100 0010 1100 0010 0000 0100 0010 0111 0010 0110 1111`  
 `0010 0001 0000 1010 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000`  
 `0000 0000 0000 1001 0000 0000 0000 0000 0000 0001 0000 0000 0000 0000 0000 0010`  
 `1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111`  
+
+## How to run program?
+**Windows**: ¯\\_(ツ)_/¯  
+**Linux/Unix**: write magic number to this interpreter: `#!/path/pucher`  
+
+Alternative variant:  
+Example:  
+`$ make -j && ./build/puncher test/hello.hex`  
+
+Flags:  
+`pucher [filename] [-?|--help] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]`  
+` filename - name of file with code`  
+` -h - code encording is hex (default)`  
+` -0 - code encording contains only 0 and 1`  
+` -b - code has binary encording`  
+` --conv-hex - convert code to hex`  
+` --conv-boo - convert code to {0|1}*`  
+` --conv-bin - convert code to binary`  
+` -? - see this message`
+` --help - see this message`
+` new_filename - name of file for convertor input`   
+` if u put flag to wrong encoding u'll get unknown behaviour`  
+
 
 ## How it works?
 
@@ -201,34 +224,14 @@ But not this:
 Char is the lowest (rightest) byte in cell.  
 Read or write char means that data will be written or read from only one byte in cell
 Example:  
-This
-`1| 00 00  00 00 00  00 00 0A # C := '\n'`
+This  
+`1| 00 00  00 00 00  00 00 0A # C := '\n'`  
 Same to this  
-`1| 00 00  00 00 00  00 FF 0A # C := '\n'`
+`1| 00 00  00 00 00  00 FF 0A # C := '\n'`  
 But not this  
-`1| 00 00  00 00 00  00 0A 00 # C := '\0'`
-or this
-`1| 0A 00  00 00 00  00 00 00 # C := '\0'`
-
-## How to run program?
-**Windows**: ¯\\_(ツ)_/¯  
-**Linux/Unix**: write magic number to this interpreter: `#!/path/pucher`  
-
-Alternative variant:  
-Example:  
-`$ make -j && ./build/puncher test/hello.hex`  
-
-Flags:  
-`pucher [filename] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]`  
-` filename - name of file with code`  
-` -h - code encording is hex (default)`  
-` -0 - code encording contains only 0 and 1`  
-` -b - code has binary encording`  
-` --conv-hex - convert code to hex`  
-` --conv-boo - convert code to {0|1}*`  
-` --conv-bin - convert code to binary`  
-` new_filename - name of file for convertor input`   
-` if u put flag to wrong encoding u'll get unknown behaviour`  
+`1| 00 00  00 00 00  00 0A 00 # C := '\0'`  
+or this  
+`1| 0A 00  00 00 00  00 00 00 # C := '\0'`  
 
 ## TO DO LIST  
 - float
