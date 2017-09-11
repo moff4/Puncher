@@ -704,7 +704,6 @@ bool Puncher::start()
 				if (_2 & (8 )) mod += O_CREAT;
 				if (_2 & (16)) mod += O_TRUNC;
 				if (_2 & (32)) mod += O_NOFOLLOW;
-				if (_2 & (64)) mod += O_SYMLINK;
 				this->stack->push((_u64)open(st.c_str(),mod,rights));
 			}break;
 

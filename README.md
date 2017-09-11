@@ -207,7 +207,6 @@ mod:
 * 8  | O_CREAT         create file if it does not exist  
 * 16 | O_TRUNC         truncate size to 0  
 * 32 | O_NOFOLLOW      do not follow symlinks  
-* 64 | O_SYMLINK       allow open of symlinks  
 Rights: left 9bits (not 12 or 16) in 2nd arg:  
 * 000****** - owner ; 1st bit - read 
 * ***000*** - group ; 2nd bit - write
