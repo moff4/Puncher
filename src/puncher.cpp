@@ -1,4 +1,5 @@
 #include <string>
+#include <stdio.h>
 #include <iostream>
 #include <unistd.h>
 #include <fcntl.h>
@@ -141,7 +142,7 @@ bool Puncher::start()
 		#endif /* EXTRA_OUTPUT_2 */
 		
 		#ifdef EXTRA_OUTPUT_1
-		cout<<"cmd: "<<COMMAND(x)<<" 1arg: "<<_1arg(x)<<" 2arg: "<<_2arg(x)<<endl;
+		cout<<"line: "<<line<<" cmd: "<<COMMAND(x)<<" 1arg: "<<_1arg(x)<<" 2arg: "<<_2arg(x)<<endl;
 		#endif /* EXTRA_OUTPUT_1 */
 
 		_1 = _1arg(x);
@@ -232,6 +233,9 @@ bool Puncher::start()
 			 */
 			case 9:
 			{
+				#ifdef EXTRA_OUTPUT_1
+				cout<<"STDOUT: ";
+				#endif /* EXTRA_OUTPUT_1 */
 				check_addr(_1,line,line_num)
 				check_iotype(_2,line,line_num)
 				switch (_2)
@@ -241,13 +245,7 @@ bool Puncher::start()
 					 */
 					case 0:
 					{
-						const char* mod;
-						#ifdef __linux__
-						mod = "%ld";
-						#else
-						mod = "%lld";
-						#endif
-						printf(mod,this->bytes[_1]->val);
+						cout<<this->bytes[_1]->val;
 					}break;
 
 					/**
@@ -255,23 +253,7 @@ bool Puncher::start()
 					 */
 					case 1:
 					{
-						const char* mod;
-						#ifdef __linux__
-						mod = "%ld";
-						#else
-						mod = "%lld";
-						#endif
-						_i64 i,j;
-						i = 0x800000 & this->bytes[_1]->val;
-						j = 0x0FFFFF & this->bytes[_1]->val;
-						if (i==0)
-						{
-							printf(mod,(_u64)this->bytes[_1]->val);
-						}
-						else
-						{
-							printf(mod,(_i64)this->bytes[_1]->val);
-						}
+						cout<<(_i64)this->bytes[_1]->val;
 					}break;
 					
 					/**
@@ -311,6 +293,7 @@ bool Puncher::start()
 					 */
 					case 5:
 					{
+						x = this->bytes[_1]->val;
 						string st = "";
 						for (int j=0;j<64;j++)
 						{
@@ -336,6 +319,9 @@ bool Puncher::start()
 			 */
 			case 10:
 			{
+				#ifdef EXTRA_OUTPUT_1
+				cout<<"STDIN: ";
+				#endif /* EXTRA_OUTPUT_1 */
 				check_addr(_1,line,line_num)
 				check_iotype(_2,line,line_num)
 				switch (_2)
@@ -343,12 +329,22 @@ bool Puncher::start()
 					/**
 					 * unsigned int (dec)
 					 */
-					case 0:{}break;
+					case 0:
+					{
+						_u64 y;
+						cin >> y;
+						this->bytes[_1]->val = (_u64)y;
+					}break;
 
 					/**
 					 * signed int (dec)
 					 */
-					case 1:{}break;
+					case 1:
+					{
+						_i64 y;
+						cin >> y;
+						this->bytes[_1]->val = (_u64)y;
+					}break;
 					
 					/**
 					 * string
@@ -358,17 +354,60 @@ bool Puncher::start()
 					/**
 					 * char
 					 */
-					case 3:{}break;
+					case 3:
+					{
+						_u8 q = getchar();
+						this->bytes[_1]->val = (_u64)q;
+					}break;
 					
 					/**
 					 * hex
 					 */
-					case 4:{}break;
+					case 4:
+					{
+						int j = 0;
+						_u64 y = 0;
+						_u8 q;
+						while ((((q=getchar())>='0')and(q<='9')) or ((q>='A')and(q<='F')) or ((q>='a')and(q<='f')))
+						{	
+							/**
+							 * if there'll be nore then 16 letters we will automaticaly get mod 2**64 because of overflow
+							 */
+							y = y << 4;
+							if ((q>='A')and(q<='F'))
+							{
+								y+=q-'A' + 10;
+							}
+							else if ((q>='a')and(q<='f'))
+							{
+								y+=q-'a' + 10;
+							}
+							else if ((q>='0')and(q<='9'))
+							{
+								y+=q-'0';
+							}
+						}
+						this->bytes[_1]->val = y;
+					}break;
 					
 					/**
 					 * bin
 					 */
-					case 5:{}break;
+					case 5:
+					{
+						int j = 0;
+						_u64 y = 0;
+						_u8 q;
+						while (((q=getchar())>='0')and(q<='1'))
+						{	
+							/**
+							 * if there'll be nore then 64 letters we will automaticaly get mod 2**64 because of overflow
+							 */
+							y = y << 1;
+							y+=q-'0';
+						}
+						this->bytes[_1]->val = y;
+					}break;
 					
 					/**
 					 * unknown
@@ -545,6 +584,23 @@ bool Puncher::start()
 				{
 					line = addr - 1;
 				}
+			}break;
+
+			/**
+			 * alloc
+			 */
+			case 25:
+			{
+				int i=0;
+				_u64 _new_size = line_num + _1 + 2;
+				this->bytes = (Bytes**)realloc(this->bytes,_new_size*sizeof(Bytes*));
+				for (; i < _1 ; i++)
+				{
+					this->bytes[line_num + i] = new Bytes();
+				}
+				this->bytes[line_num + i] = NULL;
+				//line_num += i;
+				for(line_num = 0;this->bytes[line_num]!=NULL;line_num++);
 			}break;
 				
 			/**

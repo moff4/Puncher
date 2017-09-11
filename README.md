@@ -57,6 +57,7 @@ So then we get:
 |	22.				|	[jle](https://github.com/moff4/Puncher#22-jle)		|	address			|	address																	|
 |	23.				|	[jb](https://github.com/moff4/Puncher#23-jb)		|	address			|	address																	|
 |	24.				|	[jbe](https://github.com/moff4/Puncher#24-jbe)		|	address			|	address																	|
+|	25.				|	[alloc](https://github.com/moff4/Puncher#25-alloc)	|	number			|	nothing																	|
 
 
 
@@ -152,6 +153,9 @@ jump to addr if (unsigned)1st < (unsigned)2nd
 addr = stack.pop()
 jump to addr if (unsigned)1st < (unsigned)2nd  
 
+#### 25. alloc  
+Allocate memory at the end of code  
+Fill it by zero by default
 
 #### Types of input and output data  
 0) unsigned int (dec) 
@@ -220,3 +224,5 @@ Flags:
 ## TO DO LIST  
 - read (all types)
 - add `LOOP <addr CX> <or addr to jmp>`
+- command to add memory
+- float
