@@ -1,5 +1,5 @@
-# Puncher
-Punched card emulator
+# Puncher  
+Punched card emulator  
 
 Hello Word!  
 `0000 0000 0000 0110 0000 0000 0000 0000 0000 0100 0000 0000 0000 0000 0000 0000`  
@@ -9,7 +9,7 @@ Hello Word!
 `0000 0000 0000 1001 0000 0000 0000 0000 0000 0001 0000 0000 0000 0000 0000 0010`  
 `1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111`  
 
-## How to run program?
+## How to run program?  
 **Windows**: ¯\\_(ツ)_/¯  
 **Linux/OS X**: write magic number to this interpreter: `#!/path/pucher`  
 
@@ -26,18 +26,18 @@ Flags:
 ` --conv-hex - convert code to hex`  
 ` --conv-boo - convert code to {0|1}*`  
 ` --conv-bin - convert code to binary`  
-` -? - see this message`
-` --help - see this message`
-` -v - version`
-` --version - version`
+` -? - see this message`  
+` --help - see this message`  
+` -v - version`  
+` --version - version`  
 ` new_filename - name of file for convertor input`   
 ` if u put flag to wrong encoding u'll get unknown behaviour`  
 
 
-## How it works?
+## How it works?  
 
 64bit in line in hexcode with spaces/tabs and comments after '#' (or binary code)  
-Example: `00 02  00 00 02  00 00 03 # ADD (*2) (*3)` 
+Example: `00 02  00 00 02  00 00 03 # ADD (*2) (*3)`  
 
 ### Code  
 each 32bit is a memory cell that contains:  
@@ -45,16 +45,16 @@ each 32bit is a memory cell that contains:
 * 2 args (2 x 3 bytes);  
 cell: `[00 02] [00 00 02] [00 00 03]`  
 
-### Data
+### Data  
 64bit in line is one memory cell  
 Memory cell can be data or command with args and there is differens between them only in runtime.  
-So then we get:
-* Maximum usigned integer value = 2^64-1
-* Maximum address length = 2^24-1 (That's also max size of ur program)
-* Maximum number of different commands = 2^16-1
+So then we get:  
+* Maximum usigned integer value = 2^64-1  
+* Maximum address length = 2^24-1 (That's also max size of ur program)  
+* Maximum number of different commands = 2^16-1  
 
 
-### Commands
+### Commands  
 | number(2bytes)	|	command												| 1st arg (3bytes)  | 2nd arg (3bytes)																|
 |-------------------|-------------------------------------------------------|-------------------|-------------------------------------------------------------------------------|
 |  -1.				|	[exit](https://github.com/moff4/Puncher#-1-exit)	|	-1				|	-1																			|
@@ -90,48 +90,48 @@ So then we get:
 |	30.				|	[fwrite](https://github.com/moff4/Puncher#30-fwrite)|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
 
 
-"1st" and "2nd" means:
-* data at memmory cell with address == ith arg if arg == "address"
-* number = ith arg if arg == "number"
-* number in range(0,5) if arg == "oitype"
-* smth special binary; read command manual
+"1st" and "2nd" means:  
+* data at memmory cell with address == ith arg if arg == "address"  
+* number = ith arg if arg == "number"  
+* number in range(0,5) if arg == "oitype"  
+* smth special binary; read command manual  
 
 #### -1. exit  
 Just stops program  
-That's only way to stop running ur program
+That's only way to stop running ur program  
 
 #### 1. mov  
 Just move data from one cell to another  
-1st = 2nd
+1st = 2nd  
 
 #### 2. add  
-1st  = (1st + 2nd)
+1st  = (1st + 2nd)  
 
 #### 3. sub  
-1st = (1st - 2nd)
+1st = (1st - 2nd)  
 
 #### 4. mul  
-1st = (1st * 2nd)
+1st = (1st * 2nd)  
 
 #### 5. div  
-1st = (1st / 2nd)
+1st = (1st / 2nd)  
 
 #### 6. jmp  
-goto another `address`
+goto another `address`  
 
 #### 7. push  
-push to stack data from cell
-push(1st)
+push to stack data from cell  
+push(1st)  
 
 #### 8. pop  
-pop data from stack to cell
-1st = pop()
+pop data from stack to cell  
+1st = pop()  
 
 #### 9. write  
-write stdout data according to [type](https://github.com/moff4/Puncher#types-of-input-and-output-data):
+write stdout data according to [type](https://github.com/moff4/Puncher#types-of-input-and-output-data):  
 
 #### 10. read  
-read stdin from data according to [type](https://github.com/moff4/Puncher#types-of-input-and-output-data):
+read from stdin data according to [type](https://github.com/moff4/Puncher#types-of-input-and-output-data):  
 
 #### 11. shl  
 1st = 1st * ( 2 * 2nd)
@@ -170,19 +170,19 @@ addr = stack.pop()
 jump to addr if (unsigned)1st >= (unsigned)2nd  
 
 #### 21. jl  
-addr = stack.pop()
+addr = stack.pop()  
 jump to addr if (signed)1st < (signed)2nd  
 
 #### 22. jle  
-addr = stack.pop()
+addr = stack.pop()  
 jump to addr if (signed)1st <= (signed)2nd  
 
 #### 23. jb  
-addr = stack.pop()
+addr = stack.pop()  
 jump to addr if (unsigned)1st < (unsigned)2nd  
 
 #### 24. jbe  
-addr = stack.pop()
+addr = stack.pop()  
 jump to addr if (unsigned)1st < (unsigned)2nd  
 
 #### 25. alloc  
@@ -222,12 +222,12 @@ In case of error result < 0
 1st arg - link to file descriptor  
 
 #### 29. fread  
-file descriptor = stack.pop()
+file descriptor = stack.pop()  
 1st arg - link to cells where data will be put  
 2nd - iotype  
 
 #### 30. fwrite  
-file descriptor = stack.pop()
+file descriptor = stack.pop()  
 1st arg - link to data  
 2nd - iotype  
 
