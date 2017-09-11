@@ -232,7 +232,7 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
  */
 void _print_version(void)
 {
-    cout<<"Puched card emulator"<<endl;
+    cout<<"Punched card emulator"<<endl;
     cout<<"Version: 0.9"<<endl;
     cout<<"Git: https://github.com/moff4/Puncher"<<endl;
 }
@@ -242,7 +242,7 @@ void _print_version(void)
  */
 void _print_help(void)
 {
-    cout<<"Puched card emulator"<<endl;
+    cout<<"Punched card emulator"<<endl;
     cout<<"[-?|--help|-v|--version] | [[filename] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]]"<<endl;
     cout<<" filename - name of file with code"<<endl;
     cout<<" -h - code encording is hex (default)"<<endl;

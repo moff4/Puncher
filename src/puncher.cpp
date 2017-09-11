@@ -714,7 +714,7 @@ bool Puncher::start()
 			case 28:
 			{
 				check_addr(_1,line,line_num)
-				close(_1);
+				close(this->bytes[_1]->val);
 			}break;
 
 			/**
@@ -891,6 +891,7 @@ bool Puncher::start()
 						char st[256];
 						sprintf(st,mod,this->bytes[_1]->val);
 						write(fd,st,strlen(st));
+						write(1,st,strlen(st));
 					}break;
 
 					/**
@@ -906,6 +907,7 @@ bool Puncher::start()
 						char st[256];
 						sprintf(st,mod,this->bytes[_1]->val);
 						write(fd,st,strlen(st));
+						write(1,st,strlen(st));
 					}break;
 					
 					/**
@@ -915,6 +917,7 @@ bool Puncher::start()
 					{
 						string st = get_string(_1,line_num);
 						write(fd,st.c_str(),st.length());
+						cout<<"FOUT: "<<st<<endl;
 					}break;
 					
 					/**
