@@ -602,6 +602,19 @@ bool Puncher::start()
 				//line_num += i;
 				for(line_num = 0;this->bytes[line_num]!=NULL;line_num++);
 			}break;
+
+			/**
+			 * loop
+			 */
+			case 26:
+			{
+				check_addrs(_1,_2,line,line_num)
+				if (this->bytes[_1]->val != 0)
+				{
+					this->bytes[_1]->val -=1;
+					line = _2 - 1;
+				}
+			}break;
 				
 			/**
 			 * exit

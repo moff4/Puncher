@@ -41,8 +41,8 @@ So then we get:
 |	6.				|	[jmp](https://github.com/moff4/Puncher#6-jmp)		|	address			|	nothing																	|
 |	7.				|	[push](https://github.com/moff4/Puncher#7-push)		|	address			|	nothing																	|
 |	8.				|	[pop](https://github.com/moff4/Puncher#8-pop)		|	address			|	nothing																	|
-|	9.				|	[write](https://github.com/moff4/Puncher#9-write)	|	address			|	[type](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
-|	10.				|	[read](https://github.com/moff4/Puncher#10-read)	|	address			|	[type](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
+|	9.				|	[write](https://github.com/moff4/Puncher#9-write)	|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
+|	10.				|	[read](https://github.com/moff4/Puncher#10-read)	|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
 |	11.				|	[shl](https://github.com/moff4/Puncher#11-shl)		|	address			|	number																	|
 |	12.				|	[shr](https://github.com/moff4/Puncher#12-shr)		|	address			|	number																	|
 |	13.				|	[shl8](https://github.com/moff4/Puncher#13-shl8)	|	address			|	number																	|
@@ -58,11 +58,13 @@ So then we get:
 |	23.				|	[jb](https://github.com/moff4/Puncher#23-jb)		|	address			|	address																	|
 |	24.				|	[jbe](https://github.com/moff4/Puncher#24-jbe)		|	address			|	address																	|
 |	25.				|	[alloc](https://github.com/moff4/Puncher#25-alloc)	|	number			|	nothing																	|
+|	26.				|	[loop](https://github.com/moff4/Puncher#26-loop)	|	address			|	address																	|
 
 
-
-* "1st" means "data in 1st addreess"
-* "2nd" means "data in 2st addreess"
+"1st" and "2nd" means:
+* data at memmory cell with address == ith arg if arg == "address"
+* number == ith arg if arg == "number"
+* number in range(0,5) if arg == "oitype"
 
 #### -1. exit  
 Just stops program  
@@ -154,8 +156,15 @@ addr = stack.pop()
 jump to addr if (unsigned)1st < (unsigned)2nd  
 
 #### 25. alloc  
-Allocate memory at the end of code  
-Fill it by zero by default
+Allocate number lines at the end of code  
+Fill it by zero  
+U can fill it with code or data  
+
+#### 26. loop  
+if value in 1st address != 0  
+then value in 1st address -= 1  
+and goto 2nd address  
+else do nothing
 
 #### Types of input and output data  
 0) unsigned int (dec) 
@@ -172,20 +181,20 @@ String starts from first (left) byte that is not zero in cell (64bit) and can ta
 Long strings can have first byte on one line and the last on the next one (or even any longer), the value will be between them even if its more then 100500 bytes  
 Example:  
 This
-`1| 00 48  69 2C 20  6D 61 6E # st = "Hi, man"`  
-`2| 21 21  21 0A 00  00 00 00 # .st = "!!!\n"`
+`1| 00 48  69 2C 20  6D 61 6E # st := "Hi, man"`  
+`2| 21 21  21 0A 00  00 00 00 # .st := "!!!\n"`
 Same to this  
-`1| 48 69  2C 20 6D  61 6E 21 # st = "Hi, man!"`
-`2| 21 21  0A 00 00  00 00 00 # .st = "!!\n"`
+`1| 48 69  2C 20 6D  61 6E 21 # st := "Hi, man!"`
+`2| 21 21  0A 00 00  00 00 00 # .st := "!!\n"`
 Also this:  
-`1| 00 00  00 00 00  00 00 48 # st = "H"`
-`2| 69 2C  20 6D 61  6E 21 21 # .st = "i, man!!"`
-`3| 21 0A  00 00 00  00 00 00 # .st = "!\n"`
+`1| 00 00  00 00 00  00 00 48 # st := "H"`
+`2| 69 2C  20 6D 61  6E 21 21 # .st := "i, man!!"`
+`3| 21 0A  00 00 00  00 00 00 # .st := "!\n"`
 
 But not this:  
 `1| 00 00  00 00 00  00 00 00 # nothing here`
-`2| 48 69  2C 20 6D  61 6E 21 # st = "Hi, man!"`
-`3| 21 21  0A 00 00  00 00 00 # .st = "!!\n"`
+`2| 48 69  2C 20 6D  61 6E 21 # st := "Hi, man!"`
+`3| 21 21  0A 00 00  00 00 00 # .st := "!!\n"`
 
 
 ### What is char?
@@ -193,13 +202,13 @@ Char is the lowest (rightest) byte in cell.
 Read or write char means that data will be written or read from only one byte in cell
 Example:  
 This
-`1| 00 00  00 00 00  00 00 0A # C = '\n'`
+`1| 00 00  00 00 00  00 00 0A # C := '\n'`
 Same to this  
-`1| 00 00  00 00 00  00 FF 0A # C = '\n'`
+`1| 00 00  00 00 00  00 FF 0A # C := '\n'`
 But not this  
-`1| 00 00  00 00 00  00 0A 00 # C = '\0'`
+`1| 00 00  00 00 00  00 0A 00 # C := '\0'`
 or this
-`1| 0A 00  00 00 00  00 00 00 # C != '\0'`
+`1| 0A 00  00 00 00  00 00 00 # C := '\0'`
 
 ## How to run program?
 **Windows**: ¯\\_(ツ)_/¯  
@@ -207,7 +216,7 @@ or this
 
 Alternative variant:  
 Example:  
-`$ make -j ; ./build/puncher test/test.hex`  
+`$ make -j && ./build/puncher test/hello.hex`  
 
 Flags:  
 `pucher [filename] [ -h | -0 | -b ] [ [ --conv-hex | --conv-boo | --conv-bin ] new_filename ]`  
@@ -222,7 +231,4 @@ Flags:
 ` if u put flag to wrong encoding u'll get unknown behaviour`  
 
 ## TO DO LIST  
-- read (all types)
-- add `LOOP <addr CX> <or addr to jmp>`
-- command to add memory
 - float

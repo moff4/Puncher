@@ -4,11 +4,11 @@
 00 00  00 00 00  00 00 01 # C = 1            |		# 3rd line
 00 00  00 00 00  00 00 20 # D = 32           |		# ...
 00 00  00 00 00  00 00 06 # addr1 = 6        |
-00 09  00 00 01  00 00 00 # write A uint <---+ <-----------+
-00 09  00 00 04  00 00 03 # write D char                   |
-00 02  00 00 01  00 00 03 # A += C                         |
-00 07  00 00 05  00 00 00 # stack.push(addr1)              |
-00 16  00 00 01  00 00 02 # if A != B jmp to stack.pop() --+               |	
+00 09  00 00 02  00 00 00 # write B uint <---+ <-------------+
+00 09  00 00 04  00 00 03 # write D char                     |
+00 02  00 00 01  00 00 03 # A += C                           |
+00 07  00 00 05  00 00 00 # stack.push(addr1)                |
+00 1A  00 00 02  00 00 06 # LOOP: if B !=0 then B-=1;jmp 6 --+
 FF FF  FF FF FF  FF FF FF # END PROGRAM 
 #
 # result: all digits 0 - 255
