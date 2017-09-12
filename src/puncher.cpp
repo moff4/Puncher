@@ -161,14 +161,14 @@ inline void Puncher::_put_string(_u64 line,string st)
 
 
 
-//#define EXTRA_OUTPUT_2
-//#define EXTRA_OUTPUT_1
+//#define CMD_EXTRA_OUTPUT
+//#define STACK_EXTRA_OUTPUT 
 #define COMMAND(x)						((x & 0xFFFF000000000000) >> 48)
 #define _1arg(x)						((x & 0x0000FFFFFF000000) >> 24)
 #define _2arg(x)						((x & 0x0000000000FFFFFF))
 #define check_addrs(x,y,line,line_num)	{if (x>=line_num) {cout<<"addr1 err; line: "<<line<<endl; return true;}if (y>=line_num) {cout<<"addr2 err; line: "<<line<<endl; return true;}}
 #define check_addr(x,line,line_num)		{if (x>=line_num) {cout<<"addr err; line: "<<line<<endl; return true;}}
-#define check_iotype(x,line,line_num)	{if (x>5) {cout<<"type err; line: "<<line<<endl; return true;}}
+#define check_iotype(x,line,line_num)	{if (x>6) {cout<<"type err; line: "<<line<<endl; return true;}}
 /**
  * run code
  */
@@ -183,19 +183,10 @@ bool Puncher::start()
 	for(_u64 line = 0;this->bytes[line]!=NULL;line++)
 	{
 		x = this->bytes[line]->val;
-
-		#ifdef EXTRA_OUTPUT_2
-		for (int i=0;this->bytes[i]!=NULL;i++)
-		{
-			x = this->bytes[i]->val;
-			cout<<"\tcmd: "<<COMMAND(x)<<" 1arg: "<<_1arg(x)<<" 2arg: "<<_2arg(x)<<endl;
-		}
-		cout<<endl;
-		#endif /* EXTRA_OUTPUT_2 */
 		
-		#ifdef EXTRA_OUTPUT_1
-		cout<<"line: "<<line<<" cmd: "<<COMMAND(x)<<" 1arg: "<<_1arg(x)<<" 2arg: "<<_2arg(x)<<endl;
-		#endif /* EXTRA_OUTPUT_1 */
+		#ifdef CMD_EXTRA_OUTPUT
+		cout<<"line:  "<<line<<"\tcmd: "<<COMMAND(x)<<"\t1arg: "<<_1arg(x)<<"\t2arg: "<<_2arg(x)<<endl;
+		#endif /* CMD_EXTRA_OUTPUT */
 
 		_1 = _1arg(x);
 		_2 = _2arg(x);
@@ -267,6 +258,9 @@ bool Puncher::start()
 			case 7:
 			{
 				check_addr(_1,line,line_num)
+				#ifdef STACK_EXTRA_OUTPUT
+				cout<<"--- STACK-PUSH: line: "<<line<<"; val: "<<this->bytes[_1]->val<<"; size: "<<this->stack->size()<<endl;
+				#endif
 				this->stack -> push(this->bytes[_1]->val);
 			}break;
 
@@ -277,6 +271,9 @@ bool Puncher::start()
 			{
 				check_addr(_1,line,line_num)
 				_u64 y = this->stack -> pop(line);
+				#ifdef STACK_EXTRA_OUTPUT
+				cout<<"--- STACK-POP: line: "<<line<<"; val: "<<y<<"; size: "<<this->stack->size()<<endl;
+				#endif
 				this->bytes[_1]->val = y;
 			}break;
 
@@ -288,7 +285,10 @@ bool Puncher::start()
 				#ifdef EXTRA_OUTPUT_1
 				cout<<"STDOUT: ";
 				#endif /* EXTRA_OUTPUT_1 */
-				check_addr(_1,line,line_num)
+				if (_2 != 6)
+				{
+					check_addr(_1,line,line_num)
+				}
 				check_iotype(_2,line,line_num)
 				switch (_2)
 				{
@@ -353,6 +353,15 @@ bool Puncher::start()
 							x=x>>1;
 						}
 						cout<<st;
+					}break;
+
+					/**
+					 * fast char
+					 */
+					case 6:
+					{
+						_u8 q = (_1&0xFF);
+						printf("%c",q);
 					}break;
 					
 					/**
@@ -872,7 +881,10 @@ bool Puncher::start()
 				#ifdef EXTRA_OUTPUT_1
 				cout<<"FILE OUTPUT: ";
 				#endif /* EXTRA_OUTPUT_1 */
-				check_addr(_1,line,line_num)
+				if (_2 != 6)
+				{
+					check_addr(_1,line,line_num)
+				}
 				check_iotype(_2,line,line_num)
 				_u64 fd = this->stack->pop(line);
 				switch (_2)
@@ -958,6 +970,15 @@ bool Puncher::start()
 						}
 						write(fd,st.c_str(),st.length());
 					}break;
+
+					/**
+					 * fast char
+					 */
+					case 6:
+					{
+						_u8 y = (char)(_2&0xFF);
+						write(fd,&(y),1);
+					}break;
 					
 					/**
 					 * unknown
@@ -968,6 +989,30 @@ bool Puncher::start()
 						return true;
 					}break;
 				}
+			}break;
+
+			/**
+			 * call
+			 */
+			case 31:
+			{
+				check_addr(_1,line,line_num);
+				this->stack->push(line);
+				line = _1 - 1;
+			}break;
+
+			/**
+			 * return
+			 */
+			case 32:
+			{
+				check_addr(_1,line,line_num);
+				if (_2 != 0)
+				{
+					check_addr(_2,line,line_num);
+					this->stack->push(this->bytes[_2]->val);
+				}
+				line = this->bytes[_1]->val;
 			}break;
 
 			/**

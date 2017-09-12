@@ -5,12 +5,15 @@
 
 using namespace std;
 
+
+#define STACK_EXTRA_OUTPUT
+
 /**
  * init
  */
-block::block(block*bl,_u64 y)
+block::block(_u64 y)
 {
-	this->pr = bl;
+	this->old = this->_new = NULL;
 	this->x = y;
 }
 
@@ -19,10 +22,7 @@ block::block(block*bl,_u64 y)
  */
 block::~block()
 {
-	if (this->pr != NULL)
-	{
-		delete this->pr;
-	}
+	// nothing
 }
 
 /**
@@ -40,7 +40,10 @@ Stack::~Stack()
 {
 	if (this->bl!=NULL)
 	{
-		delete this->bl;
+		while (this->bl->old != NULL)
+		{
+			this->bl = this->bl->old;
+		}
 	}
 }
 
@@ -49,8 +52,16 @@ Stack::~Stack()
  */
 void Stack::push(_u64 x)
 {
-	block * cx = new block(this->bl,x);
-	this->bl = cx;
+	if (this->bl == NULL)
+	{
+		this->bl = new block(x);
+	}
+	else
+	{
+		this->bl->_new = new  block(x);
+		this->bl->_new->old = this->bl;
+		this->bl = this->bl->_new;
+	}
 }
 
 /**
@@ -58,16 +69,52 @@ void Stack::push(_u64 x)
  */
 _u64 Stack::pop(_u64 line)
 {
+	//cout<<"from stack: pop: line: "<<line<<endl;
 	if (this->bl == NULL)
 	{
 		cout<<"STACK ERROR: pop when it's empty ; line: "<<line<<endl;
 		exit(1);
 		return 0;
 	}
-	block*cx = this->bl->pr;
-	this->bl->pr = NULL;
-	_u64 y = this->bl->x;
-	delete this->bl;
-	this->bl = cx;
-	return y;
+	while (this->bl->_new != NULL)
+	{
+		this->bl = this->bl->_new;
+	}
+	_u64 x = this->bl->x;
+	if (this->bl->old != NULL)
+	{
+		this->bl = this->bl->old;
+		delete this->bl->_new;
+		this->bl->_new = NULL;
+	}
+	else
+	{
+		delete this->bl;
+		this->bl = NULL;
+	}
+	return x;
 }
+
+/**
+ * return size of stack
+ */
+_u64 Stack::size()
+{
+	if (this->bl == NULL)
+	{
+		return 0;
+	}
+	_u64 x = 1;
+	while (this->bl->old != NULL)
+	{
+		this->bl = this->bl->old;
+	}
+	while (this->bl->_new != NULL)
+	{
+		x ++ ;
+		this->bl = this->bl->_new;
+	}
+	return x;
+}
+
+

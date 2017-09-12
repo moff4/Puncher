@@ -18,6 +18,18 @@ void parse_argv(int w,const char ** stt, string& filename,string& mod, string& c
  */
 int main(int w,const char** stt)
 {
+    /*
+    Stack * st = new Stack();
+
+    st->push(10);
+    st->push(20);
+    st->push(30);
+    cout<<st->size()<<endl;
+    cout<<st->pop(0)<<endl;
+    cout<<st->pop(1)<<endl;
+    cout<<st->pop(2)<<endl;
+    delete st;
+    return 0;//*/
 
     string filename     = "";
     string new_filename = "";

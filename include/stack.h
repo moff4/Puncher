@@ -11,7 +11,7 @@ struct block
 	/**
 	 * previous block
 	 */
-	block*pr;
+	block*old,*_new;
 
 	/**
 	 * value of block
@@ -21,7 +21,7 @@ struct block
 	/**
 	 * init
 	 */
-	block(block*,_u64);
+	block(_u64);
 
 	/**
 	 * destruct
@@ -53,5 +53,10 @@ public:
 	 * pop out of Stack
 	 */
 	_u64 pop(_u64);
+
+	/**
+	 * return size of stack
+	 */
+	_u64 size();
 };
 #endif /* STACK_H */

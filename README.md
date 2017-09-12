@@ -58,6 +58,7 @@ So then we get:
 | number(2bytes)	|	command												| 1st arg (3bytes)  | 2nd arg (3bytes)																|
 |-------------------|-------------------------------------------------------|-------------------|-------------------------------------------------------------------------------|
 |  -1.				|	[exit](https://github.com/moff4/Puncher#-1-exit)	|	-1				|	-1																			|
+|	0.				|	[nope](https://github.com/moff4/Puncher#0-nope)		|	anything		|	anything																	|
 |	1.				|	[mov](https://github.com/moff4/Puncher#1-mov)		|	address			|	address																		|
 |	2.				|	[add](https://github.com/moff4/Puncher#2-add)		|	address			|	address																		|
 |	3.				|	[sub](https://github.com/moff4/Puncher#3-sub)		|	address			|	address																		|
@@ -88,6 +89,9 @@ So then we get:
 |	28.				|	[close](https://github.com/moff4/Puncher#28-close)	|	address			|	nothing																		|
 |	29.				|	[fread](https://github.com/moff4/Puncher#29-fread)	|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
 |	30.				|	[fwrite](https://github.com/moff4/Puncher#30-fwrite)|	address			|	[iotype](https://github.com/moff4/Puncher#types-of-input-and-output-data)	|
+|	31.				|	[call](https://github.com/moff4/Puncher#31-call)	|	address			|	nothing																		|
+|	32.				|	[return](https://github.com/moff4/Puncher#32-return)|	address			|	address																		|
+
 
 
 "1st" and "2nd" means:  
@@ -99,6 +103,9 @@ So then we get:
 #### -1. exit  
 Just stops program  
 That's only way to stop running ur program  
+
+#### 0. nope
+Just do nothing
 
 #### 1. mov  
 Just move data from one cell to another  
@@ -230,6 +237,12 @@ file descriptor = stack.pop()
 1st arg - link to data  
 2nd - iotype  
 
+#### 31. call  
+push current address to stack and jmp to addr (1st arg)
+
+#### 32.return
+1st arg - link to cell which value will be pushed to stack as result
+2st arg - link to cell with value == return address
 
 #### Types of input and output data  
 0) unsigned int (dec) 
@@ -238,6 +251,7 @@ file descriptor = stack.pop()
 3) [char](https://github.com/moff4/Puncher#what-is-char)
 4) hex  
 5) binary  
+6) fast-char (only write and fwrite); take 1st arg not as addr but as char and write it as normal char  
 
 
 ### What is string?

@@ -1,0 +1,40 @@
+00 06  00 00 0C  00 00 00 # jmp line #12 -----+		# zero line
+00 00  00 00 00  00 00 0A # A = 10            |		# 1st line
+00 00  00 00 00  00 00 14 # B = 20            |		# 2nd line
+00 00  AB CD EF  00 00 00 # Local A           |		# 3rd line
+00 00  00 00 00  AB CD EF # Local B           |		# ...
+00 00  00 00 00  00 00 00 # return_addr       |	
+00 08  00 00 05  00 00 00 # return_addr = pop | <--+
+00 08  00 00 03  00 00 00 # local A = pop     |    |	
+00 08  00 00 04  00 00 00 # local B = pop     |    |	
+00 02  00 00 03  00 00 04 # A += local B      |    |	
+00 20  00 00 05  00 00 03 # return 5 3;       |    |	
+00 00  00 00 00  00 00 0C # D = 12            |    |	
+00 07  00 00 01  00 00 00 # push A       <----<----------+	
+00 07  00 00 02  00 00 00 # push B                 |     |	
+00 1F  00 00 06  00 00 00 # call proc att addr 6 --+     |	
+00 08  00 00 01  00 00 00 # A = pop                      |	
+00 01  00 00 02  00 00 01 # B = A                        |	
+00 09  00 00 01  00 00 00 # write result as int          |	
+00 09  00 00 0A  00 00 06 # write C as fast-char         |	
+00 1A  00 00 0B  00 00 0C # LOOP: if D !=0 then D-=1;jmp 12	
+FF FF  FF FF FF  FF FF FF # END PROGRAM 
+#
+# result: this file
+#
+# ASCII: (hex,char)
+#	41   A 	|	4e   N		||	61   a 	|	6e   n		||	2c   , 	|	39   9
+#	42   B 	|	4f   O		||	62   b 	|	6f   o		||	2e   . 	|	2f   /
+#	43   C 	|	50   P		||	63   c 	|	70   p		||	21   ! 	|	
+#	44   D 	|	51   Q		||	64   d 	|	71   q		||	3f   ? 	|	
+#	45   E 	|	52   R		||	65   e 	|	72   r		||	30   0 	|	
+#	46   F 	|	53   S		||	66   f 	|	73   s		||	31   1 	|	
+#	47   G 	|	54   T		||	67   g 	|	74   t		||	32   2 	|	
+#	48   H 	|	55   U		||	68   h 	|	75   u		||	33   3 	|	
+#	49   I 	|	56   V		||	69   i 	|	76   v		||	34   4 	|	
+#	4a   J 	|	57   W		||	6a   j 	|	77   w		||	35   5 	|	
+#	4b   K 	|	58   X		||	6b   k 	|	78   x		||	36   6 	|	
+#	4c   L 	|	59   Y		||	6c   l 	|	79   y		||	37   7 	|	
+#	4d   M 	|	5a   Z		||	6d   m 	|	7a   z		||	38   8 	|	
+#
+
